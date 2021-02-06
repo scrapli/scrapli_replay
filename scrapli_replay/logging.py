@@ -88,8 +88,4 @@ class ScrapliReplayFormatter(Formatter):
         return message
 
 
-slap_handler = FileHandler(filename="scrapli_replay.log", mode="w")
-slap_handler.setFormatter(ScrapliReplayFormatter(log_header=True, caller_info=True))
-logger = getLogger("scrapli_replay")
-logger.setLevel(level="DEBUG")
-logger.addHandler(slap_handler)
+logger.addHandler(NullHandler())
