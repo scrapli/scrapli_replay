@@ -1,5 +1,5 @@
 """scrapli_replay.logging"""
-from logging import FileHandler, Formatter, LogRecord, getLogger
+from logging import Formatter, LogRecord, NullHandler, getLogger
 
 
 class ScrapliReplayFormatter(Formatter):
