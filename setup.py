@@ -3,7 +3,7 @@
 import setuptools
 
 __author__ = "Carl Montanari"
-__version__ = "2021.01.22"
+__version__ = "2021.02.06a1"
 
 
 with open("README.md", "r", encoding="utf-8") as f:
