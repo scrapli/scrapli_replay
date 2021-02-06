@@ -88,4 +88,5 @@ class ScrapliReplayFormatter(Formatter):
         return message
 
 
+logger = getLogger("scrapli_replay")
 logger.addHandler(NullHandler())
