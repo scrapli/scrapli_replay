@@ -1,0 +1,4 @@
+dataclasses>=0.7,<1.0 ; python_version < "3.7"
+scrapli@git+https://github.com/carlmontanari/scrapli@develop#egg=scrapli
+ruamel.yaml==0.16.12
+asyncssh==2.5.0
