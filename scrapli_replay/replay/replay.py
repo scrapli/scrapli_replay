@@ -59,15 +59,15 @@ class ScrapliReplay:
         Scrapli replay
 
         Args:
-            session_directory:
-            session_name:
-            replay_mode:
+            session_directory: directory to write session data to
+            session_name: name of session to write out
+            replay_mode: replay mode to use
 
         Returns:
             None
 
         Raises:
-            TypeError
+            ScrapliReplayException: if invalid replay mode provided
 
         """
         if session_directory is None or not Path(session_directory).is_dir():
@@ -93,6 +93,8 @@ class ScrapliReplay:
                 "session exists but replay mode is not set to overwrite, using replay mode 'replay'"
             )
             replay_mode = "replay"
+        elif not self._session_exists():
+            replay_mode = "record"
 
         self.replay_mode = ReplayMode[replay_mode.upper()]
 
@@ -199,7 +201,8 @@ class ScrapliReplay:
                 scrapli_inputs iterators to use in the replay read/write methods
 
         Raises:
-            N/A
+            ScrapliReplayConnectionProfileError: if recorded connection profile does not match the
+                actual connection profile
 
         """
         actual_connection_profile = ConnectionProfile(**self.replay_session["connection_profile"])
@@ -281,16 +284,20 @@ class ScrapliReplay:
             Patched AsyncChannel.read method
 
             Args:
-                cls:
+                cls: scrapli Channel self
 
             Returns:
-                bytes:
+                bytes: bytes read from teh channel
 
             Raises:
-                N/A
+                ScrapliReplayException: if there are no more outputs from the session to replay
 
             """
-            buf = next(device_outputs).encode()
+            try:
+                buf = next(device_outputs).encode()
+            except StopIteration as exc:
+                msg = "No more device outputs to replay"
+                raise ScrapliReplayException(msg) from exc
 
             cls.logger.debug(f"read: {repr(buf)}")
 
@@ -327,16 +334,20 @@ class ScrapliReplay:
             Patched Channel.read method
 
             Args:
-                cls:
+                cls: scrapli Channel self
 
             Returns:
-                bytes:
+                bytes: bytes read form the channel
 
             Raises:
-                N/A
+                ScrapliReplayException: if there are no more outputs from the session to replay
 
             """
-            buf = next(device_outputs).encode()
+            try:
+                buf = next(device_outputs).encode()
+            except StopIteration as exc:
+                msg = "No more device outputs to replay"
+                raise ScrapliReplayException(msg) from exc
 
             cls.logger.debug(f"read: {repr(buf)}")
 
@@ -374,15 +385,15 @@ class ScrapliReplay:
             Patched Channel.write method
 
             Args:
-                cls:
-                channel_input:
-                redacted:
+                cls: scrapli Channel self
+                channel_input: input to send to the channel
+                redacted: if input should be redacted from log
 
             Returns:
                 None
 
             Raises:
-                N/A
+                ScrapliReplayExpectedInputError: if actual input does not match expected input
 
             """
             expected_input, expected_redacted = next(scrapli_inputs)
@@ -451,10 +462,10 @@ class ScrapliReplay:
             Patched Channel.read method
 
             Args:
-                cls:
+                cls: scrapli Channel self
 
             Returns:
-                bytes:
+                bytes: bytes read
 
             Raises:
                 N/A
@@ -497,16 +508,17 @@ class ScrapliReplay:
             Patched Channel.read method
 
             Args:
-                cls:
+                cls: scrapli Channel self
 
             Returns:
-                bytes:
+                bytes: bytes read
 
             Raises:
                 N/A
 
             """
             buf: bytes = cls.transport.read()
+
             buf = buf.replace(b"\r", b"")
 
             self._read_log.write(buf)
@@ -546,9 +558,9 @@ class ScrapliReplay:
             Patched Channel.write method
 
             Args:
-                cls:
-                channel_input:
-                redacted:
+                cls: scrapli Channel self
+                channel_input: input to send to the channel
+                redacted: if input should be redacted from log
 
             Returns:
                 None
@@ -589,7 +601,7 @@ class ScrapliReplay:
             to think about which transport is being used
 
             Args:
-                cls:
+                cls: scrapli Drive self
 
             Returns:
                 None
@@ -632,7 +644,7 @@ class ScrapliReplay:
             cls._post_open_closing_log(closing=False)  # pylint: disable=W0212
 
         self._patched_open = mock.patch.object(
-            scrapli.driver.base.sync_driver.Driver, "open", new=patched_open
+            target=scrapli.driver.base.sync_driver.Driver, attribute="open", new=patched_open
         )
         self._patched_open.start()
 
@@ -654,7 +666,7 @@ class ScrapliReplay:
             None
 
         Raises:
-            ScrapliReplayException
+            ScrapliReplayException: if patched open is none for some reason
 
         """
         if not self._patched_open:
@@ -691,7 +703,7 @@ class ScrapliReplay:
             to think about which transport is being used
 
             Args:
-                cls:
+                cls: scrapli Drive self
 
             Returns:
                 None
@@ -751,7 +763,7 @@ class ScrapliReplay:
             None
 
         Raises:
-            ScrapliReplayException
+            ScrapliReplayException: if patched open is none for some reason
 
         """
         if not self._patched_open:
@@ -779,10 +791,17 @@ class ScrapliReplay:
             N/A
 
         """
+        read_log_len = self._read_log.tell()
         self._read_log.seek(0)
 
         replay_session: Dict[str, Any] = {}
-        replay_session["connection_profile"] = asdict(self._wrapped_connection_profile)
+
+        try:
+            replay_session["connection_profile"] = asdict(self._wrapped_connection_profile)
+        except TypeError:
+            # connection was already open so we couldn't patch it
+            replay_session["connection_profile"] = {}
+
         replay_session["interactions"] = []
 
         # all things after the "initial output" is an "interaction"
@@ -800,22 +819,18 @@ class ScrapliReplay:
             )
             previous_read_to_position = read_to_position
 
+        if previous_read_to_position != read_log_len:
+            # we can end up w/ "extra" data if we dont close the connection -- as in scrapli will
+            # have read one more thing than it wrote -- so we check to see if there is remaining
+            # read log data, and if so add one final interaction
+            replay_session["interactions"].append(
+                {
+                    "channel_output": self._read_log.read().decode(),
+                    "expected_channel_input": None,
+                    "expected_channel_input_redacted": False,
+                }
+            )
         return replay_session
-
-    def _deserialize(self) -> None:
-        """
-        Deserialize yaml-friendly output into in memory session data
-
-        Args:
-            N/A
-
-        Returns:
-             None
-
-        Raises:
-            N/A
-
-        """
 
     def _save(self) -> None:
         """

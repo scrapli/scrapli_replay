@@ -91,7 +91,7 @@ def test_collector_instantiation_no_scrapli_conn(caplog):
     assert isinstance(collector.scrapli_connection, IOSXEDriver)
 
     # only care to validate that the user warning log record is correct/good
-    _, _, channel_log_log_record, _ = caplog.records
+    channel_log_log_record = caplog.records[0]
     assert (
         "channel_log arg provided, replacing with ScrapliCollector channel_log"
         in channel_log_log_record.msg

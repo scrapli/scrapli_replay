@@ -70,7 +70,7 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
         SSH Connection made!
 
         Args:
-            N/A
+            chan: channel editor object
 
         Returns:
             None
@@ -156,13 +156,13 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
         Handle "interactive" channel input
 
         Args:
-            N/A
+            channel_input: input sent from the user on the channel
 
         Returns:
             None
 
         Raises:
-            TypeError: if we get None for self._interacting_data
+            ScrapliReplayServerError: if we get None for self._interacting_data
 
         """
         if not self._interacting_event:
@@ -219,7 +219,8 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
         Handle "normal" command channel input
 
         Args:
-            N/A
+            channel_input: input sent from the user on the channel
+            event: the event data for the given input
 
         Returns:
             None

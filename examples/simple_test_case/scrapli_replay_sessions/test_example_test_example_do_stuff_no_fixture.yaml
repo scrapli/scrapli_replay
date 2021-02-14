@@ -1,0 +1,37 @@
+connection_profile:
+  host: c3560
+  port: 22
+  auth_username: ''
+  auth_password: false
+  auth_private_key: ''
+  auth_private_key_passphrase: false
+  auth_bypass: false
+  transport: system
+  auth_secondary: false
+interactions:
+  - channel_output: "Warning: Permanently added 'c3560,172.31.254.1' (RSA) to the\
+      \ list of known hosts.\n\nC3560CX#"
+    expected_channel_input: "\n"
+    expected_channel_input_redacted: false
+  - channel_output: "\nC3560CX#"
+    expected_channel_input: terminal length 0
+    expected_channel_input_redacted: false
+  - channel_output: terminal length 0
+    expected_channel_input: "\n"
+    expected_channel_input_redacted: false
+  - channel_output: "\nC3560CX#"
+    expected_channel_input: terminal width 512
+    expected_channel_input_redacted: false
+  - channel_output: terminal width 512
+    expected_channel_input: "\n"
+    expected_channel_input_redacted: false
+  - channel_output: "\nC3560CX#"
+    expected_channel_input: show version | i Software
+    expected_channel_input_redacted: false
+  - channel_output: show version | i Software
+    expected_channel_input: "\n"
+    expected_channel_input_redacted: false
+  - channel_output: "\nCisco IOS Software, C3560CX Software (C3560CX-UNIVERSALK9-M),\
+      \ Version 15.2(4)E7, RELEASE SOFTWARE (fc2)\nC3560CX#"
+    expected_channel_input:
+    expected_channel_input_redacted: false

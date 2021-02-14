@@ -99,7 +99,7 @@ class ScrapliCollector:
             None
 
         Raises:
-            None
+            ScrapliReplayException: if no valid scrapli connection or connection data present
 
         """
         logger.debug("creating scrapli replay collector")
@@ -344,7 +344,7 @@ class ScrapliCollector:
             None
 
         Raises:
-            None
+            ScrapliReplayException: if privilege patterns aren't collected before running this
 
         """
         if not self.collected_priv_prompts:
@@ -463,7 +463,7 @@ class ScrapliCollector:
         device behaves
 
         Args:
-            N/A
+            channel_input: input to send
 
         Returns:
             None
@@ -625,7 +625,7 @@ class ScrapliCollector:
         device behaves
 
         Args:
-            N/A
+            interact_event: interactive event to capture
 
         Returns:
             None

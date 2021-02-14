@@ -25,7 +25,7 @@ setuptools.setup(
     keywords="ssh telnet netconf automation network cisco iosxr iosxe nxos arista eos juniper "
     "junos",
     url="https://github.com/scrapli/scrapli-replay",
-    project_urls={"Changelog": "https://github.com/scrapli/scrapli_repaly/CHANGELOG.md"},
+    project_urls={"Changelog": "https://scrapli.github.io/scrapli/scrapli_repaly/chnagelog"},
     license="MIT",
     packages=setuptools.find_packages(),
     install_requires=INSTALL_REQUIRES,
@@ -44,5 +44,5 @@ setuptools.setup(
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     python_requires=">=3.6",
-    entry_points={"pytest11": ["scrapli_replay = scrapli_replay.pytest.pytest_scrapli_replay"]},
+    entry_points={"pytest11": ["scrapli_replay = scrapli_replay.replay.pytest_scrapli_replay"]},
 )
