@@ -1,0 +1,1410 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Scrapli Replay: Tools to enable easy testing of scrapli programs">
+      
+      
+      
+        <meta name="author" content="Carl Montanari">
+      
+      
+        <link rel="canonical" href="https://github.com/scrapli/scrapli_replay/user_guide/basic_usage/">
+      
+      <link rel="shortcut icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.1.2, mkdocs-material-6.2.8">
+    
+    
+      
+        <title>Basic Usage - Scrapli Replay</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.cb6bc1d0.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.39b8e14a.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#000000">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>body,input{font-family:"Roboto",-apple-system,BlinkMacSystemFont,Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono",SFMono-Regular,Consolas,Menlo,monospace}</style>
+      
+    
+    
+    
+    
+      
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="black" data-md-color-accent="teal">
+      
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#basic-usage" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid" aria-label="Header">
+    <a href="https://github.com/scrapli/scrapli_replay" title="Scrapli Replay" class="md-header-nav__button md-logo" aria-label="Scrapli Replay">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    <label class="md-header-nav__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header-nav__title" data-md-component="header-title">
+      <div class="md-header-nav__ellipsis">
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            Scrapli Replay
+          </span>
+        </div>
+        <div class="md-header-nav__topic">
+          <span class="md-ellipsis">
+            
+              Basic Usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <label class="md-header-nav__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" data-md-state="active" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0116 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 019.5 16 6.5 6.5 0 013 9.5 6.5 6.5 0 019.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <button type="reset" class="md-search__icon md-icon" aria-label="Clear" data-md-component="search-reset" tabindex="-1">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header-nav__source">
+        
+<a href="https://github.com/scrapli/scrapli_replay" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    scrapli/scrapli_replay
+  </div>
+</a>
+      </div>
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="https://github.com/scrapli/scrapli_replay" title="Scrapli Replay" class="md-nav__button md-logo" aria-label="Scrapli Replay">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 003-3 3 3 0 00-3-3 3 3 0 00-3 3 3 3 0 003 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54z"/></svg>
+
+    </a>
+    Scrapli Replay
+  </label>
+  
+    <div class="md-nav__source">
+      
+<a href="https://github.com/scrapli/scrapli_replay" title="Go to repository" class="md-source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    scrapli/scrapli_replay
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        Scrapli Replay
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-2" type="checkbox" id="nav-2" checked>
+      
+      <label class="md-nav__link" for="nav-2">
+        User Guide
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="User Guide" data-md-level="1">
+        <label class="md-nav__title" for="nav-2">
+          <span class="md-nav__icon md-icon"></span>
+          User Guide
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../quickstart/" class="md-nav__link">
+        Quick Start Guide
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project_details/" class="md-nav__link">
+        Project Details
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../versioning/" class="md-nav__link">
+        Versioning
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Basic Usage
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Basic Usage
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-do-you-need-to-get-done" class="md-nav__link">
+    What do you need to get done!?!
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest-plugin" class="md-nav__link">
+    Pytest Plugin
+  </a>
+  
+    <nav class="md-nav" aria-label="Pytest Plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview-and-use-case" class="md-nav__link">
+    Overview and Use Case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How it Works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-it" class="md-nav__link">
+    How to Use it
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytest-plugin-options" class="md-nav__link">
+    Pytest Plugin Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Pytest Plugin Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mode" class="md-nav__link">
+    Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory" class="md-nav__link">
+    Directory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overwrite" class="md-nav__link">
+    Overwrite
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable" class="md-nav__link">
+    Disable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#collector-and-server" class="md-nav__link">
+    Collector and Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Collector and Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collector" class="md-nav__link">
+    Collector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server" class="md-nav__link">
+    Server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-4" type="checkbox" id="nav-4" >
+      
+      <label class="md-nav__link" for="nav-4">
+        More Scrapli
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="More Scrapli" data-md-level="1">
+        <label class="md-nav__title" for="nav-4">
+          <span class="md-nav__icon md-icon"></span>
+          More Scrapli
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../more_scrapli/scrapli/" class="md-nav__link">
+        Scrapli
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../more_scrapli/nornir_scrapli/" class="md-nav__link">
+        Nornir Scrapli
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../more_scrapli/scrapli_community/" class="md-nav__link">
+        Scrapli Community
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../more_scrapli/scrapli_netconf/" class="md-nav__link">
+        Scrapli Netconf
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../more_scrapli/scrapli_stubs/" class="md-nav__link">
+        Scrapli Stubs
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="nav-5" type="checkbox" id="nav-5" >
+      
+      <label class="md-nav__link" for="nav-5">
+        Other
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Other" data-md-level="1">
+        <label class="md-nav__title" for="nav-5">
+          <span class="md-nav__icon md-icon"></span>
+          Other
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/contributing/" class="md-nav__link">
+        Contributing
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../about/code_of_conduct/" class="md-nav__link">
+        Code of Conduct
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#what-do-you-need-to-get-done" class="md-nav__link">
+    What do you need to get done!?!
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#pytest-plugin" class="md-nav__link">
+    Pytest Plugin
+  </a>
+  
+    <nav class="md-nav" aria-label="Pytest Plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview-and-use-case" class="md-nav__link">
+    Overview and Use Case
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-it-works" class="md-nav__link">
+    How it Works
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#how-to-use-it" class="md-nav__link">
+    How to Use it
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pytest-plugin-options" class="md-nav__link">
+    Pytest Plugin Options
+  </a>
+  
+    <nav class="md-nav" aria-label="Pytest Plugin Options">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#mode" class="md-nav__link">
+    Mode
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#directory" class="md-nav__link">
+    Directory
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#overwrite" class="md-nav__link">
+    Overwrite
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#disable" class="md-nav__link">
+    Disable
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#collector-and-server" class="md-nav__link">
+    Collector and Server
+  </a>
+  
+    <nav class="md-nav" aria-label="Collector and Server">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    Overview
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collector" class="md-nav__link">
+    Collector
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#server" class="md-nav__link">
+    Server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="basic-usage">Basic Usage<a class="headerlink" href="#basic-usage" title="Permanent link">&para;</a></h1>
+<h2 id="what-do-you-need-to-get-done">What do you need to get done!?!<a class="headerlink" href="#what-do-you-need-to-get-done" title="Permanent link">&para;</a></h2>
+<p>First things first: what do you need to get done? scrapli replay contains two similar yet very different testing 
+tools. </p>
+<p>The first, is the pytest plugin -- a plugin to mark tests with. This plugin will record scrapli session 
+inputs and outputs and save them, that way you can store these test sessions and re-use them (without needing a 
+"live" device) in your CI setup.</p>
+<p>The second, is a "collector", and a "server" that allow you to build semi-interactive SSH servers that you can 
+connect to for testing purposes.</p>
+<p>As you'd expect, if you are writing tests and wanting to have some reasonable assurances that your code that 
+interacts with scrapli is doing what you think it should be doing, then you probably want to use the pytest plugin! 
+If you just want to have a mock SSH server to play with, then the collector/server may be interesting to you.</p>
+<h2 id="pytest-plugin">Pytest Plugin<a class="headerlink" href="#pytest-plugin" title="Permanent link">&para;</a></h2>
+<h3 id="overview-and-use-case">Overview and Use Case<a class="headerlink" href="#overview-and-use-case" title="Permanent link">&para;</a></h3>
+<p>As shown in the quickstart guide, getting going with the pytest plugin is fairly straightforward -- tests that 
+contain scrapli operations can be marked with the <code>scrapli_replay</code> marker, causing scrapli replay to automagically 
+wrap this test and record or replay sessions within the test.</p>
+<p>In order for scrapli replay to do this, there is one big caveat: the scrapli connection <em>must be opened within the 
+test</em>! Projects like <code>pytest-vcr</code> don't have this requirement because the sessions are stateless HTTP(s) sessions -- 
+this is of course not the case for Telnet/SSH where we have more or less a stateful connection object. This may 
+sound like a limiting factor for scrapli replay and perhaps it is, however it is relatively easy to work with as 
+you'll see below!</p>
+<p>Here is a very simple example of a class that creates a scrapli connection and has some methods to do stuff:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">scrapli</span> <span class="kn">import</span> <span class="n">Scrapli</span>
+
+
+<span class="k">class</span> <span class="nc">Example</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span> <span class="o">=</span> <span class="n">Scrapli</span><span class="p">(</span>
+            <span class="n">host</span><span class="o">=</span><span class="s2">&quot;c3560&quot;</span><span class="p">,</span> <span class="n">platform</span><span class="o">=</span><span class="s2">&quot;cisco_iosxe&quot;</span><span class="p">,</span> <span class="n">ssh_config_file</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">auth_strict_key</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+        <span class="c1"># dont do this! dont have side affects in init, but helps demonstrate things!</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">do_stuff</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Get the version from the device&quot;&quot;&quot;</span>
+        <span class="n">version_result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conn</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="s2">&quot;show version | i Software&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">version_result</span><span class="o">.</span><span class="n">failed</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;__FAILURE__&quot;</span>
+
+        <span class="n">version_result_string</span> <span class="o">=</span> <span class="n">version_result</span><span class="o">.</span><span class="n">result</span>
+        <span class="n">version_result_match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span>
+            <span class="n">pattern</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;Version ([a-z0-9\.\(\)]*)&quot;</span><span class="p">,</span> <span class="n">string</span><span class="o">=</span><span class="n">version_result_string</span><span class="p">,</span> <span class="n">flags</span><span class="o">=</span><span class="n">re</span><span class="o">.</span><span class="n">I</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">version_result_match</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s2">&quot;__FAILURE__&quot;</span>
+
+        <span class="k">return</span> <span class="n">version_result_match</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+
+<p>Let's pretend we want to write some tests for the <code>do_stuff</code> method of this example class. We probably want to have 
+at least three test cases for this method:</p>
+<ol>
+<li>Testing a failed result from the initial show command</li>
+<li>Testing a success event where we properly get and parse the version string</li>
+<li>Testing a failed parsing of the version string</li>
+</ol>
+<p>For cases one and three we probably don't want or need scrapli replay -- we could simply patch the <code>send_command</code> 
+method of scrapli, returning bad data -- either a bad scrapli <code>Response</code> object, or a <code>Response</code> object with data 
+that will cause our regex to fail.</p>
+<p>For case number 2, however, we <em>could</em> also patch scrapli and return correct data, this would validate that our 
+function, when given appropriate outputs from scrapli, does what it should do. This would be a valuable test. With 
+scrapli replay, however, we can take this a bit further! We can now create a test case that records <em>actual device 
+inputs and outputs</em> and saves that data in a scrapli replay session. Subsequent tests can then <em>replay</em> that input 
+and output data. Rather than just testing that our regex works w/ some patched response data we can now very simply 
+test not only that, but also scrapli -- ensuring that scrapli is behaving as you would expect!</p>
+<h3 id="how-it-works">How it Works<a class="headerlink" href="#how-it-works" title="Permanent link">&para;</a></h3>
+<p>Before jumping into how to use scrapli replay, it's worth spending a bit of time to understand how it works. At a 
+high level, scrapli replay is a Pytest plugin that you can "mark" tests with. By marking a test you are effectively 
+"wrapping" that test in the scrapli replay <code>ScrapliReplay</code> class.</p>
+<p>The pytest plugin then uses the <code>ScrapliReplay</code> class as a context manager, yielding to your test within the context 
+manager. For tests that are marked <code>asyncio</code> we simply use the async context manager capability instead of the 
+synchronous version. This selection of sync vs async happens transparently to you --  you just need to mark your 
+tests with the <code>asyncio</code> marker if they are asyncio (which you had to do anyway, so no biggie!).</p>
+<p>While the <code>ScrapliReplaly</code> context manager is active (while your test is running) <code>ScrapliReplay</code> patches the <code>open</code> 
+method of scrapli. When a connection is opened a <code>ConnectionProfile</code> is recorded (host/user/is using password/auth 
+bypass/etc.). This <code>ConnectionProfile</code> is stored as part of the scrapli replay session data -- allowing us to 
+validate that during subsequent test runs the connection information has not changed (if it has we raise an 
+exception to fail the test).</p>
+<p>After the <code>ConnectionProfile</code> is recorded, the scrapli <code>Channel</code> (or <code>AsyncChannel</code>) read and write methods are 
+patched (replaced) with scrapli replay read/write methods. If the current test iteration is in "record" mode, we 
+patch with the "record" read/write, otherwise we patch with the "replay" read/write -- these methods do what they 
+sound like! Recording or replaying session data.</p>
+<p>At completion of your test, when the context manager is closing the session will be dumped to a yaml file in your 
+session output directory (by default this is a folder located with your test file).</p>
+<p>Due to the fact that scrapli replay uses the open method of scrapli in order to fetch connection data and also to 
+patch the channel objects, there is a requirement that the test actually opens the connection. This sounds perhaps 
+limiting, and probably it is somewhat, however you can fairly easily work around this by having a fixture that 
+returns an object with the connection already opened -- this fixture currently must be scoped to the <em>function</em> 
+level. This will hopefully be improved in further scrapli replay releases to allow us to cache session-wide fixtures.</p>
+<h3 id="how-to-use-it">How to Use it<a class="headerlink" href="#how-to-use-it" title="Permanent link">&para;</a></h3>
+<p>As shown in the quickstart, using scrapli replay is fairly straightforward -- simply mark a test with the correct 
+marker. The complication generally will come from needing to have the connection opened within that test being 
+wrapped -- this section will showcase some basic ways to use scrapli replay, as well as how we can handle the 
+connection opening problem.</p>
+<p>Working with the example class from the overview section, let's handle test case number 2. To start, we can do this 
+with the patching method -- without scrapli replay:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">scrapli.response</span> <span class="kn">import</span> <span class="n">Response</span>
+
+
+<span class="k">def</span> <span class="nf">test_example_do_stuff_patching</span><span class="p">(</span><span class="n">monkeypatch</span><span class="p">,</span> <span class="n">example_instance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test Example.do_stuff&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">patched_send_command</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">command</span><span class="p">):</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">Response</span><span class="p">(</span><span class="n">host</span><span class="o">=</span><span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">channel_input</span><span class="o">=</span><span class="n">command</span><span class="p">)</span>
+        <span class="n">r</span><span class="o">.</span><span class="n">record_response</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;Software Version 15.2(4)E7&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">r</span>
+
+    <span class="n">monkeypatch</span><span class="o">.</span><span class="n">setattr</span><span class="p">(</span><span class="s2">&quot;scrapli.driver.network.sync_driver.NetworkDriver.send_command&quot;</span><span class="p">,</span> <span class="n">patched_send_command</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">example_instance</span><span class="o">.</span><span class="n">do_stuff</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;15.2(4)E7&quot;</span>
+</code></pre></div>
+
+<p>This works reasonably well, and properly tests our regex does indeed find the version string; of course you could 
+actually return a real device output instead of hte abbreviated output here as well -- that would make things a bit 
+more "real". This is nice, but it does not test any scrapli behavior at all as scrapli is completely patched out of 
+the test. There must be a better way!</p>
+<p>Let's now re-write this test using scrapli replay:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">example</span> <span class="kn">import</span> <span class="n">Example</span>  <span class="c1"># &lt;- this is assuming directory structure as in the &quot;examples/simple_test_case&quot; example!</span>
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">scrapli_replay</span>
+<span class="k">def</span> <span class="nf">test_example_do_stuff_no_fixture</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Test Example.do_stuff&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">Example</span><span class="p">()</span><span class="o">.</span><span class="n">do_stuff</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;15.2(4)E7&quot;</span>
+</code></pre></div>
+
+<p>No patching?! Amazing! So... what is going on here?</p>
+<p>The <code>Example</code> class (from the snippet way above here) is created, which causes the scrapli connection to open, then 
+we call the <code>do_stuff</code> method which fetches the version and parses it with some regex. Scrapli replay is "aware" of 
+this test due to the marker -- this basically means that this test is living inside of a scrapli replay context 
+manager... you can think of it as something like this:</p>
+<div class="codehilite"><pre><span></span><code><span class="k">with</span> <span class="n">ScrapliReplay</span><span class="p">:</span>
+    <span class="n">test</span><span class="p">()</span>
+</code></pre></div>
+
+<p>An oversimplified example, but not by much!</p>
+<p>If you run this example (from the examples dir in the repo) the first time the test is ran, scrapli will actually 
+connect to your device and record the output. This of course means that you need proper credentials/access in order 
+to get this first recording done -- using ssh keys/config file so that you don't need to store any user/creds in 
+your test is a great way to deal with this.</p>
+<p>At the end of the test, scrapli replay will dump the "session" data out to a yaml file in a new folder called 
+"scrapli_replay_sessions" that was created in the same directory of your test file (you can change this, see the 
+options section!). This "session" file looks like this:</p>
+<div class="codehilite"><pre><span></span><code><span class="nt">connection_profile</span><span class="p">:</span>
+  <span class="nt">host</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">c3560</span>
+  <span class="nt">port</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">22</span>
+  <span class="nt">auth_username</span><span class="p">:</span> <span class="s">&#39;&#39;</span>
+  <span class="nt">auth_password</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="nt">auth_private_key</span><span class="p">:</span> <span class="s">&#39;&#39;</span>
+  <span class="nt">auth_private_key_passphrase</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="nt">auth_bypass</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="nt">transport</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">system</span>
+  <span class="nt">auth_secondary</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="nt">interactions</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">channel_output</span><span class="p">:</span> <span class="s">&quot;Warning:</span><span class="nv"> </span><span class="s">Permanently</span><span class="nv"> </span><span class="s">added</span><span class="nv"> </span><span class="s">&#39;c3560,172.31.254.1&#39;</span><span class="nv"> </span><span class="s">(RSA)</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">the\</span>
+      <span class="s">\ list</span><span class="nv"> </span><span class="s">of</span><span class="nv"> </span><span class="s">known</span><span class="nv"> </span><span class="s">hosts.\n\nC3560CX#&quot;</span>
+    <span class="nt">expected_channel_input</span><span class="p">:</span> <span class="s">&quot;\n&quot;</span>
+    <span class="nt">expected_channel_input_redacted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="p p-Indicator">-</span> <span class="nt">channel_output</span><span class="p">:</span> <span class="s">&quot;\nC3560CX#&quot;</span>
+    <span class="nt">expected_channel_input</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">terminal length 0</span>
+    <span class="nt">expected_channel_input_redacted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="p p-Indicator">-</span> <span class="nt">channel_output</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">terminal length 0</span>
+    <span class="nt">expected_channel_input</span><span class="p">:</span> <span class="s">&quot;\n&quot;</span>
+    <span class="nt">expected_channel_input_redacted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="p p-Indicator">-</span> <span class="nt">channel_output</span><span class="p">:</span> <span class="s">&quot;\nC3560CX#&quot;</span>
+    <span class="nt">expected_channel_input</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">terminal width 512</span>
+    <span class="nt">expected_channel_input_redacted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="p p-Indicator">-</span> <span class="nt">channel_output</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">terminal width 512</span>
+    <span class="nt">expected_channel_input</span><span class="p">:</span> <span class="s">&quot;\n&quot;</span>
+    <span class="nt">expected_channel_input_redacted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="p p-Indicator">-</span> <span class="nt">channel_output</span><span class="p">:</span> <span class="s">&quot;\nC3560CX#&quot;</span>
+    <span class="nt">expected_channel_input</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">show version | i Software</span>
+    <span class="nt">expected_channel_input_redacted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="p p-Indicator">-</span> <span class="nt">channel_output</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">show version | i Software</span>
+    <span class="nt">expected_channel_input</span><span class="p">:</span> <span class="s">&quot;\n&quot;</span>
+    <span class="nt">expected_channel_input_redacted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+  <span class="p p-Indicator">-</span> <span class="nt">channel_output</span><span class="p">:</span> <span class="s">&quot;\nCisco</span><span class="nv"> </span><span class="s">IOS</span><span class="nv"> </span><span class="s">Software,</span><span class="nv"> </span><span class="s">C3560CX</span><span class="nv"> </span><span class="s">Software</span><span class="nv"> </span><span class="s">(C3560CX-UNIVERSALK9-M),\</span>
+      <span class="s">\ Version</span><span class="nv"> </span><span class="s">15.2(4)E7,</span><span class="nv"> </span><span class="s">RELEASE</span><span class="nv"> </span><span class="s">SOFTWARE</span><span class="nv"> </span><span class="s">(fc2)\nC3560CX#&quot;</span>
+    <span class="nt">expected_channel_input</span><span class="p">:</span>
+    <span class="nt">expected_channel_input_redacted</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+</code></pre></div>
+
+<p>As you can see, connection details are stored (but never credentials) -- in the event of password authentication the 
+password is not stored and is marked as "REDACTED" in the interactions output.</p>
+<p>Running the test again you'll notice that its even faster than scrapli normally is! Why? Because there is no actual 
+connection going out to the device, the connection will just be automagically replayed from this session data!</p>
+<p>Now if you have a billion tests to write, or you are needing to pass lots of inputs in order to create your scrapli 
+connection objects in every single test... that wouldn't be very fun! In cases like this it would be a great idea to 
+put either the scrapli connection object, or the device containing the connection object into a fixture and allowing 
+pytest to pass that fixture into each test function. Here is a simple example of a fixture for our example setup:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">pytest</span>
+<span class="kn">from</span> <span class="nn">example</span> <span class="kn">import</span> <span class="n">Example</span>
+
+
+<span class="nd">@pytest</span><span class="o">.</span><span class="n">fixture</span><span class="p">(</span><span class="n">scope</span><span class="o">=</span><span class="s2">&quot;function&quot;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">example_instance</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Simple fixture to return Example instance&quot;&quot;&quot;</span>
+    <span class="k">yield</span> <span class="n">Example</span><span class="p">()</span>
+</code></pre></div>
+
+<p>And... a test taking advantage of this fixture:</p>
+<div class="codehilite"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">scrapli_replay</span>
+<span class="k">def</span> <span class="nf">test_example_do_stuff_with_fixture</span><span class="p">(</span><span class="n">example_instance</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Test Example.do_stuff&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="n">example_instance</span><span class="o">.</span><span class="n">do_stuff</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;15.2(4)E7&quot;</span>
+</code></pre></div>
+
+<p>It is important to note that the fixture scope <em>must be</em> set to <code>function</code> -- again, this is because scrapli replay 
+<em>requires</em> the connection to be opened within the test it is wrapping in order to properly record the connection 
+profile and patch the read/write methods!</p>
+<h3 id="pytest-plugin-options">Pytest Plugin Options<a class="headerlink" href="#pytest-plugin-options" title="Permanent link">&para;</a></h3>
+<p>scrapli replay supports a handful of arguments to modify its behavior, currently, these are configurable via the 
+pytest cli -- in the future they will likely be configurable by a dedicated fixture as well.</p>
+<p>The available options are:</p>
+<h4 id="mode">Mode<a class="headerlink" href="#mode" title="Permanent link">&para;</a></h4>
+<p>The "replay" mode setting manages how scrapli replay handles replaying or recording sessions. This setting has the 
+following options:</p>
+<ul>
+<li>replay: the default mode; if no session exists scrapli replay will record/create one, otherwise it will "replay" 
+  existing sessions (meaning you dont need to connect to a device)</li>
+<li>record: <em>probably</em> not needed often, does at it says -- records things. If a session exists it will auto switch to 
+  replay mode (meaning <em>not</em> overwrite the session)</li>
+<li>overwrite: overwrite existing all sessions always</li>
+</ul>
+<p>This option is configurable with the <code>--scrapli-replay-mode</code> switch:</p>
+<div class="codehilite"><pre><span></span><code>python -m pytest tests --scrapli-replay-mode overwrite
+</code></pre></div>
+
+<h4 id="directory">Directory<a class="headerlink" href="#directory" title="Permanent link">&para;</a></h4>
+<p>By default, scrapli replay stores the recorded sessions in a directory in the same folder as the test that is being 
+executed. This is modifiable with the <code>--scrapli-replay-directory</code> switch:</p>
+<div class="codehilite"><pre><span></span><code>python -m pytest tests --scrapli-replay-directory /my/cool/session/dir
+</code></pre></div>
+
+<h4 id="overwrite">Overwrite<a class="headerlink" href="#overwrite" title="Permanent link">&para;</a></h4>
+<p>If you need to overwrite only certain test session data, you can do so by using the <code>--scrapli-replay-overwrite</code> 
+switch. This argument accepts a comma separated list of test names of which to overwrite the session data.</p>
+<div class="codehilite"><pre><span></span><code>python -m pytest tests --scrapli-replay-overwrite test1,test2,test3
+</code></pre></div>
+
+<h4 id="disable">Disable<a class="headerlink" href="#disable" title="Permanent link">&para;</a></h4>
+<p>Finally, you can disable entirely the scrapli replay functionality -- meaning your tests will run "normally" without 
+any of the scrapli replay patching/session work happening. This is done with the <code>--scrapli-replay-disable</code> flag.</p>
+<div class="codehilite"><pre><span></span><code>python -m pytest tests --scrapli-replay-disable
+</code></pre></div>
+
+<h2 id="collector-and-server">Collector and Server<a class="headerlink" href="#collector-and-server" title="Permanent link">&para;</a></h2>
+<h3 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h3>
+<p>The scrapli replay "collector" and "server" functionality is useful for creating mock ssh servers that are 
+"semi-interactive". You can provide any number of commands (not configs! more on this in a bit) that you would like 
+to collect from a device, and the collector will run the provided commands at all privilege levels, and with and 
+without "on_open" functionality being executed (generally this means with and without paging being disabled). The 
+collector will also collect any on open commands, on close commands, all privilege escalation/deescalation commands, 
+and "unknown" or invalid command output from every privilege level. </p>
+<p>Just like the pytest plugin, the scrapli replay collector will output the collected data to a yaml file. This yaml 
+file is then consumed by the scrapli replay server. The server itself is an asyncssh server that does its best to 
+look and feel just like the real device that you collected the data from.</p>
+<h3 id="collector">Collector<a class="headerlink" href="#collector" title="Permanent link">&para;</a></h3>
+<p>As outlined in the overview section, the collector.... collects things! The collector tries to collect as much info 
+from the device as is practical, with the ultimate goal of being able to allow the server to look pretty close to a 
+real device.</p>
+<p>Before continuing, it is important to note that currently the collector can only be used with <em>network devices</em> -- 
+meaning it <em>must</em> be used with a scrapli platform that extends the <code>NetworkDriver</code> class; moreover it <em>must</em> be used 
+with a <em>synchronous</em> transport. There will likely <em>not</em> be any asyncio support for the collector (it doesn't seem to 
+be very valuable to add asyncio support...  please open an issue if you disagree!).</p>
+<p>To get started with the collector is fairly straight forward, simply create a collector class, passing in the 
+commands you wish to collect, some details about "paging" (more on this in a sec), and the kwargs necessary to create 
+the scrapli connection to collect from:</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">from</span> <span class="nn">scrapli_replay.server.collector</span> <span class="kn">import</span> <span class="n">ScrapliCollector</span>
+
+<span class="n">scrapli_kwargs</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;host&quot;</span><span class="p">:</span> <span class="s2">&quot;localhost&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;port&quot;</span><span class="p">:</span> <span class="mi">24022</span><span class="p">,</span>
+    <span class="s2">&quot;ssh_config_file&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;auth_strict_key&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="s2">&quot;auth_username&quot;</span><span class="p">:</span> <span class="s2">&quot;vrnetlab&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;auth_password&quot;</span><span class="p">:</span> <span class="s2">&quot;VR-netlab9&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;auth_secondary&quot;</span><span class="p">:</span> <span class="s2">&quot;VR-netlab9&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;platform&quot;</span><span class="p">:</span> <span class="s2">&quot;arista_eos&quot;</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="n">collector</span> <span class="o">=</span> <span class="n">ScrapliCollector</span><span class="p">(</span>
+    <span class="n">channel_inputs</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;show version&quot;</span><span class="p">,</span> <span class="s2">&quot;show run&quot;</span><span class="p">],</span>
+    <span class="n">interact_events</span><span class="o">=</span><span class="p">[</span>
+        <span class="p">[(</span><span class="s2">&quot;clear logg&quot;</span><span class="p">,</span> <span class="s2">&quot;Clear logging buffer [confirm]&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot;switch#&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)]</span>
+    <span class="p">],</span>
+    <span class="n">paging_indicator</span><span class="o">=</span><span class="s2">&quot;--More--&quot;</span><span class="p">,</span>
+    <span class="n">paging_escape_string</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\x1b</span><span class="s2">&quot;</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">scrapli_kwargs</span><span class="p">,</span>
+<span class="p">)</span>
+</code></pre></div>
+
+<p>If you are familiar with scrapli connections, the above snippet should look fairly similar! In addition to the 
+scrapli connection data we see a few extra things:</p>
+<ul>
+<li><code>channel_inputs</code> -- a list of "inputs" you wish to send to the device for recording. Each of these inputs will be 
+  run at every privilege level of the device, and before and after executing the "on_open" function (if applicable)</li>
+<li><code>interact_events</code> -- similar to "normal" scrapli, a list of lists of tuples of "interact events" to record at each 
+  privilege level (and before/after on_open)</li>
+<li><code>paging_indicator</code> -- this is what it sounds like -- a string that lets us know if the device has paginated output 
+  data</li>
+<li><code>paging_escape_string</code> -- a string to send to "cancel" a command output if paging is encountered -- typically an 
+  escape, or a <code>q</code> works for most devices</li>
+</ul>
+<p><em>Note</em> -- you can also pass an existing scrapli connection to the <code>scrapli_connection</code> argument if you prefer 
+(instead of the kwargs needed to create a connection)!</p>
+<p>Once a collector object has been created, you can open the connection and simply run the <code>collect</code> method, followed 
+by the <code>dump</code> method:</p>
+<div class="codehilite"><pre><span></span><code><span class="n">collector</span><span class="o">.</span><span class="n">open</span><span class="p">()</span>
+<span class="n">collector</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
+<span class="n">collector</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="n">collector</span><span class="o">.</span><span class="n">dump</span><span class="p">()</span>
+</code></pre></div>
+
+<p>The session data will be dumped to a yaml file called "scrapli_replay_collector_session.yaml" (configurable with the 
+<code>collector_session_filename</code> argument) in your current directory. Once you have a session stored, you can run the 
+"server" to create a semi-interactive ssh server!</p>
+<h3 id="server">Server<a class="headerlink" href="#server" title="Permanent link">&para;</a></h3>
+<p>Starting the scrapli replay server is simple!</p>
+<div class="codehilite"><pre><span></span><code><span class="kn">import</span> <span class="nn">asyncio</span>
+<span class="kn">from</span> <span class="nn">scrapli_replay.server.server</span> <span class="kn">import</span> <span class="n">start</span>
+
+
+<span class="k">async</span> <span class="k">def</span> <span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">await</span> <span class="n">start</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">2001</span><span class="p">,</span> <span class="n">collect_data</span><span class="o">=</span><span class="s2">&quot;scrapli_replay_collector_session.yaml&quot;</span><span class="p">)</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">loop</span> <span class="o">=</span> <span class="n">asyncio</span><span class="o">.</span><span class="n">get_event_loop</span><span class="p">()</span>
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_until_complete</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
+    <span class="n">loop</span><span class="o">.</span><span class="n">run_forever</span><span class="p">()</span>
+</code></pre></div>
+
+<p>You can pass whatever port you wish for the <code>port</code> argument, and the <code>collect_data</code> must be the collected 
+data from the collector.</p>
+<p>Once the server is running you should be able to SSH to the server on the provided port just as if it were a "real" 
+device! The username and password will always be "scrapli" regardless of what the credentials were for the collected 
+server -- this is done so we never have to deal with or think about storing credentials.</p>
+<p>There are several big caveats to be aware of!</p>
+<ul>
+<li>Credentials: username/password (including for "enable" password) will always be "scrapli", as mentioned this is to 
+  keep things simple and not deal with storing any credential data</li>
+<li>Configs: configuration things are not supported and probably won't ever be. It would be a lot of work to keep 
+  track of when/if a user sends a config and what the resulting configuration would look like...</li>
+<li>Paging: if you execute a command that would not complete due to paging not being disabled (i.e. "show run" before 
+  "terminal lenght 0") the server will also not complete the show command -- sending a return at this point will get 
+  you back to the prompt. This is intentional -- if you use the server to test scrapli scripts we want things to 
+  look/feel like real... meaning scrapli would be stuck here looking for a prompt it can never find and eventually 
+  time out.</li>
+<li>Paging again...: You must send <em>all</em> commands from the "on_open" function of a driver in order to disable paging...
+  yes of course "terminal length 0" would disable paging for a "show run" command on an IOS-XE device, <em>but</em> we only 
+  know that the "on_open" function of the IOS-XE driver runs both "terminal length 0" AND "terminal width 512"... 
+  until both of these commands are seen paging is not disabled.</li>
+<li>Paging again... again...: Paging cannot be disabled other than exiting and reconnecting to the mock server. As 
+  scrapli doesnt know how to re-enable paging we can't know that for the collector either.</li>
+</ul>
+<p>With all the bad stuff out of the way, let's check out a mock server:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">$</span> <span class="n">ssh</span> <span class="n">localhost</span> <span class="o">-</span><span class="n">p</span> <span class="mi">2001</span> <span class="o">-</span><span class="n">l</span> <span class="n">scrapli</span>
+<span class="n">Warning</span><span class="p">:</span> <span class="n">Permanently</span> <span class="n">added</span> <span class="s1">&#39;[localhost]:2222&#39;</span> <span class="p">(</span><span class="n">RSA</span><span class="p">)</span> <span class="n">to</span> <span class="n">the</span> <span class="n">list</span> <span class="n">of</span> <span class="n">known</span> <span class="n">hosts</span><span class="o">.</span>
+<span class="n">Password</span><span class="p">:</span>
+<span class="n">C3560CX</span><span class="c1">#show version</span>
+<span class="n">Cisco</span> <span class="n">IOS</span> <span class="n">Software</span><span class="p">,</span> <span class="n">C3560CX</span> <span class="n">Software</span> <span class="p">(</span><span class="n">C3560CX</span><span class="o">-</span><span class="n">UNIVERSALK9</span><span class="o">-</span><span class="n">M</span><span class="p">),</span> <span class="n">Version</span> <span class="mf">15.2</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="n">E7</span><span class="p">,</span> <span class="n">RELEASE</span> <span class="n">SOFTWARE</span> <span class="p">(</span><span class="n">fc2</span><span class="p">)</span>
+<span class="n">Technical</span> <span class="n">Support</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">cisco</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">techsupport</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">1986</span><span class="o">-</span><span class="mi">2018</span> <span class="n">by</span> <span class="n">Cisco</span> <span class="n">Systems</span><span class="p">,</span> <span class="n">Inc</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">Tue</span> <span class="mi">18</span><span class="o">-</span><span class="n">Sep</span><span class="o">-</span><span class="mi">18</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="n">by</span> <span class="n">prod_rel_team</span>
+
+<span class="n">ROM</span><span class="p">:</span> <span class="n">Bootstrap</span> <span class="n">program</span> <span class="k">is</span> <span class="n">C3560CX</span> <span class="n">boot</span> <span class="n">loader</span>
+<span class="n">BOOTLDR</span><span class="p">:</span> <span class="n">C3560CX</span> <span class="n">Boot</span> <span class="n">Loader</span> <span class="p">(</span><span class="n">C3560CX</span><span class="o">-</span><span class="n">HBOOT</span><span class="o">-</span><span class="n">M</span><span class="p">)</span> <span class="n">Version</span> <span class="mf">15.2</span><span class="p">(</span><span class="mi">4</span><span class="n">r</span><span class="p">)</span><span class="n">E5</span><span class="p">,</span> <span class="n">RELEASE</span> <span class="n">SOFTWARE</span> <span class="p">(</span><span class="n">fc4</span><span class="p">)</span>
+
+<span class="n">C3560CX</span> <span class="n">uptime</span> <span class="k">is</span> <span class="mi">1</span> <span class="n">week</span><span class="p">,</span> <span class="mi">3</span> <span class="n">days</span><span class="p">,</span> <span class="mi">2</span> <span class="n">hours</span><span class="p">,</span> <span class="mi">55</span> <span class="n">minutes</span>
+<span class="n">System</span> <span class="n">returned</span> <span class="n">to</span> <span class="n">ROM</span> <span class="n">by</span> <span class="n">power</span><span class="o">-</span><span class="n">on</span>
+<span class="n">System</span> <span class="n">restarted</span> <span class="n">at</span> <span class="mi">07</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">48</span> <span class="n">PST</span> <span class="n">Thu</span> <span class="n">Jan</span> <span class="mi">14</span> <span class="mi">2021</span>
+<span class="n">System</span> <span class="n">image</span> <span class="n">file</span> <span class="k">is</span> <span class="s2">&quot;flash:c3560cx-universalk9-mz.152-4.E7.bin&quot;</span>
+<span class="n">Last</span> <span class="n">reload</span> <span class="n">reason</span><span class="p">:</span> <span class="n">power</span><span class="o">-</span><span class="n">on</span>
+
+
+
+<span class="n">This</span> <span class="n">product</span> <span class="n">contains</span> <span class="n">cryptographic</span> <span class="n">features</span> <span class="ow">and</span> <span class="k">is</span> <span class="n">subject</span> <span class="n">to</span> <span class="n">United</span>
+<span class="n">States</span> <span class="ow">and</span> <span class="n">local</span> <span class="n">country</span> <span class="n">laws</span> <span class="n">governing</span> <span class="n">import</span><span class="p">,</span> <span class="k">export</span><span class="p">,</span> <span class="n">transfer</span> <span class="ow">and</span>
+<span class="n">use</span><span class="o">.</span> <span class="n">Delivery</span> <span class="n">of</span> <span class="n">Cisco</span> <span class="n">cryptographic</span> <span class="n">products</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">imply</span>
+<span class="n">third</span><span class="o">-</span><span class="n">party</span> <span class="n">authority</span> <span class="n">to</span> <span class="n">import</span><span class="p">,</span> <span class="k">export</span><span class="p">,</span> <span class="n">distribute</span> <span class="ow">or</span> <span class="n">use</span> <span class="n">encryption</span><span class="o">.</span>
+<span class="n">Importers</span><span class="p">,</span> <span class="n">exporters</span><span class="p">,</span> <span class="n">distributors</span> <span class="ow">and</span> <span class="n">users</span> <span class="n">are</span> <span class="n">responsible</span> <span class="k">for</span>
+ <span class="o">--</span><span class="n">More</span><span class="o">--</span>
+<span class="n">C3560CX</span><span class="c1">#</span>
+</code></pre></div>
+
+<p>In the above output we connect to the mock server (with username/password of "scrapli") and execute the "show 
+version" command -- as paging has <em>not</em> been disabled we get the lovely "--More--" pagination indicator. Simply 
+sending another return here gets us back to our prompt.</p>
+<p>Continuing on... let's try to disable paging:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&lt;&lt;</span> <span class="n">SNIP</span> <span class="o">&gt;&gt;</span>
+<span class="n">This</span> <span class="n">product</span> <span class="n">contains</span> <span class="n">cryptographic</span> <span class="n">features</span> <span class="ow">and</span> <span class="k">is</span> <span class="n">subject</span> <span class="n">to</span> <span class="n">United</span>
+<span class="n">States</span> <span class="ow">and</span> <span class="n">local</span> <span class="n">country</span> <span class="n">laws</span> <span class="n">governing</span> <span class="n">import</span><span class="p">,</span> <span class="k">export</span><span class="p">,</span> <span class="n">transfer</span> <span class="ow">and</span>
+<span class="n">use</span><span class="o">.</span> <span class="n">Delivery</span> <span class="n">of</span> <span class="n">Cisco</span> <span class="n">cryptographic</span> <span class="n">products</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">imply</span>
+<span class="n">third</span><span class="o">-</span><span class="n">party</span> <span class="n">authority</span> <span class="n">to</span> <span class="n">import</span><span class="p">,</span> <span class="k">export</span><span class="p">,</span> <span class="n">distribute</span> <span class="ow">or</span> <span class="n">use</span> <span class="n">encryption</span><span class="o">.</span>
+<span class="n">Importers</span><span class="p">,</span> <span class="n">exporters</span><span class="p">,</span> <span class="n">distributors</span> <span class="ow">and</span> <span class="n">users</span> <span class="n">are</span> <span class="n">responsible</span> <span class="k">for</span>
+ <span class="o">--</span><span class="n">More</span><span class="o">--</span>
+<span class="n">C3560CX</span><span class="c1">#terminal length 0</span>
+<span class="n">C3560CX</span><span class="c1">#terminal width 511</span>
+<span class="o">%</span> <span class="n">Unknown</span> <span class="n">command</span> <span class="ow">or</span> <span class="n">computer</span> <span class="n">name</span><span class="p">,</span> <span class="ow">or</span> <span class="n">unable</span> <span class="n">to</span> <span class="n">find</span> <span class="n">computer</span> <span class="n">address</span>
+<span class="n">C3560CX</span><span class="c1">#terminal width 512</span>
+<span class="n">C3560CX</span><span class="c1">#</span>
+</code></pre></div>
+
+<p>Whoops - you can see that sending "terminal width 511" (instead of the "correct" command from the "on_open" 
+function "terminal width 512") caused the server to send us an "Unknown command" output -- similar to if you sent an 
+bad command on a "real" switch.</p>
+<p>Now that we have paging disabled, we can try the "show version" command again:</p>
+<div class="codehilite"><pre><span></span><code><span class="o">&lt;&lt;</span> <span class="n">SNIP</span> <span class="o">&gt;&gt;</span>
+<span class="n">This</span> <span class="n">product</span> <span class="n">contains</span> <span class="n">cryptographic</span> <span class="n">features</span> <span class="ow">and</span> <span class="k">is</span> <span class="n">subject</span> <span class="n">to</span> <span class="n">United</span>
+<span class="n">States</span> <span class="ow">and</span> <span class="n">local</span> <span class="n">country</span> <span class="n">laws</span> <span class="n">governing</span> <span class="n">import</span><span class="p">,</span> <span class="k">export</span><span class="p">,</span> <span class="n">transfer</span> <span class="ow">and</span>
+<span class="n">use</span><span class="o">.</span> <span class="n">Delivery</span> <span class="n">of</span> <span class="n">Cisco</span> <span class="n">cryptographic</span> <span class="n">products</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">imply</span>
+<span class="n">third</span><span class="o">-</span><span class="n">party</span> <span class="n">authority</span> <span class="n">to</span> <span class="n">import</span><span class="p">,</span> <span class="k">export</span><span class="p">,</span> <span class="n">distribute</span> <span class="ow">or</span> <span class="n">use</span> <span class="n">encryption</span><span class="o">.</span>
+<span class="n">Importers</span><span class="p">,</span> <span class="n">exporters</span><span class="p">,</span> <span class="n">distributors</span> <span class="ow">and</span> <span class="n">users</span> <span class="n">are</span> <span class="n">responsible</span> <span class="k">for</span>
+ <span class="o">--</span><span class="n">More</span><span class="o">--</span>
+<span class="n">C3560CX</span><span class="c1">#terminal length 0</span>
+<span class="n">C3560CX</span><span class="c1">#terminal width 511</span>
+<span class="o">%</span> <span class="n">Unknown</span> <span class="n">command</span> <span class="ow">or</span> <span class="n">computer</span> <span class="n">name</span><span class="p">,</span> <span class="ow">or</span> <span class="n">unable</span> <span class="n">to</span> <span class="n">find</span> <span class="n">computer</span> <span class="n">address</span>
+<span class="n">C3560CX</span><span class="c1">#terminal width 512</span>
+<span class="n">C3560CX</span><span class="c1">#show version</span>
+<span class="n">Cisco</span> <span class="n">IOS</span> <span class="n">Software</span><span class="p">,</span> <span class="n">C3560CX</span> <span class="n">Software</span> <span class="p">(</span><span class="n">C3560CX</span><span class="o">-</span><span class="n">UNIVERSALK9</span><span class="o">-</span><span class="n">M</span><span class="p">),</span> <span class="n">Version</span> <span class="mf">15.2</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="n">E7</span><span class="p">,</span> <span class="n">RELEASE</span> <span class="n">SOFTWARE</span> <span class="p">(</span><span class="n">fc2</span><span class="p">)</span>
+<span class="n">Technical</span> <span class="n">Support</span><span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">cisco</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">techsupport</span>
+<span class="n">Copyright</span> <span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="mi">1986</span><span class="o">-</span><span class="mi">2018</span> <span class="n">by</span> <span class="n">Cisco</span> <span class="n">Systems</span><span class="p">,</span> <span class="n">Inc</span><span class="o">.</span>
+<span class="n">Compiled</span> <span class="n">Tue</span> <span class="mi">18</span><span class="o">-</span><span class="n">Sep</span><span class="o">-</span><span class="mi">18</span> <span class="mi">13</span><span class="p">:</span><span class="mi">20</span> <span class="n">by</span> <span class="n">prod_rel_team</span>
+
+<span class="n">ROM</span><span class="p">:</span> <span class="n">Bootstrap</span> <span class="n">program</span> <span class="k">is</span> <span class="n">C3560CX</span> <span class="n">boot</span> <span class="n">loader</span>
+<span class="n">BOOTLDR</span><span class="p">:</span> <span class="n">C3560CX</span> <span class="n">Boot</span> <span class="n">Loader</span> <span class="p">(</span><span class="n">C3560CX</span><span class="o">-</span><span class="n">HBOOT</span><span class="o">-</span><span class="n">M</span><span class="p">)</span> <span class="n">Version</span> <span class="mf">15.2</span><span class="p">(</span><span class="mi">4</span><span class="n">r</span><span class="p">)</span><span class="n">E5</span><span class="p">,</span> <span class="n">RELEASE</span> <span class="n">SOFTWARE</span> <span class="p">(</span><span class="n">fc4</span><span class="p">)</span>
+
+<span class="n">C3560CX</span> <span class="n">uptime</span> <span class="k">is</span> <span class="mi">1</span> <span class="n">week</span><span class="p">,</span> <span class="mi">3</span> <span class="n">days</span><span class="p">,</span> <span class="mi">2</span> <span class="n">hours</span><span class="p">,</span> <span class="mi">55</span> <span class="n">minutes</span>
+<span class="n">System</span> <span class="n">returned</span> <span class="n">to</span> <span class="n">ROM</span> <span class="n">by</span> <span class="n">power</span><span class="o">-</span><span class="n">on</span>
+<span class="n">System</span> <span class="n">restarted</span> <span class="n">at</span> <span class="mi">07</span><span class="p">:</span><span class="mi">13</span><span class="p">:</span><span class="mi">48</span> <span class="n">PST</span> <span class="n">Thu</span> <span class="n">Jan</span> <span class="mi">14</span> <span class="mi">2021</span>
+<span class="n">System</span> <span class="n">image</span> <span class="n">file</span> <span class="k">is</span> <span class="s2">&quot;flash:c3560cx-universalk9-mz.152-4.E7.bin&quot;</span>
+<span class="n">Last</span> <span class="n">reload</span> <span class="n">reason</span><span class="p">:</span> <span class="n">power</span><span class="o">-</span><span class="n">on</span>
+
+
+
+<span class="n">This</span> <span class="n">product</span> <span class="n">contains</span> <span class="n">cryptographic</span> <span class="n">features</span> <span class="ow">and</span> <span class="k">is</span> <span class="n">subject</span> <span class="n">to</span> <span class="n">United</span>
+<span class="n">States</span> <span class="ow">and</span> <span class="n">local</span> <span class="n">country</span> <span class="n">laws</span> <span class="n">governing</span> <span class="n">import</span><span class="p">,</span> <span class="k">export</span><span class="p">,</span> <span class="n">transfer</span> <span class="ow">and</span>
+<span class="n">use</span><span class="o">.</span> <span class="n">Delivery</span> <span class="n">of</span> <span class="n">Cisco</span> <span class="n">cryptographic</span> <span class="n">products</span> <span class="n">does</span> <span class="ow">not</span> <span class="n">imply</span>
+<span class="n">third</span><span class="o">-</span><span class="n">party</span> <span class="n">authority</span> <span class="n">to</span> <span class="n">import</span><span class="p">,</span> <span class="k">export</span><span class="p">,</span> <span class="n">distribute</span> <span class="ow">or</span> <span class="n">use</span> <span class="n">encryption</span><span class="o">.</span>
+<span class="n">Importers</span><span class="p">,</span> <span class="n">exporters</span><span class="p">,</span> <span class="n">distributors</span> <span class="ow">and</span> <span class="n">users</span> <span class="n">are</span> <span class="n">responsible</span> <span class="k">for</span>
+<span class="n">compliance</span> <span class="n">with</span> <span class="n">U</span><span class="o">.</span><span class="n">S</span><span class="o">.</span> <span class="ow">and</span> <span class="n">local</span> <span class="n">country</span> <span class="n">laws</span><span class="o">.</span> <span class="n">By</span> <span class="n">using</span> <span class="n">this</span> <span class="n">product</span> <span class="n">you</span>
+<span class="n">agree</span> <span class="n">to</span> <span class="n">comply</span> <span class="n">with</span> <span class="n">applicable</span> <span class="n">laws</span> <span class="ow">and</span> <span class="n">regulations</span><span class="o">.</span> <span class="n">If</span> <span class="n">you</span> <span class="n">are</span> <span class="n">unable</span>
+<span class="n">to</span> <span class="n">comply</span> <span class="n">with</span> <span class="n">U</span><span class="o">.</span><span class="n">S</span><span class="o">.</span> <span class="ow">and</span> <span class="n">local</span> <span class="n">laws</span><span class="p">,</span> <span class="k">return</span> <span class="n">this</span> <span class="n">product</span> <span class="n">immediately</span><span class="o">.</span>
+
+<span class="n">A</span> <span class="n">summary</span> <span class="n">of</span> <span class="n">U</span><span class="o">.</span><span class="n">S</span><span class="o">.</span> <span class="n">laws</span> <span class="n">governing</span> <span class="n">Cisco</span> <span class="n">cryptographic</span> <span class="n">products</span> <span class="n">may</span> <span class="n">be</span> <span class="n">found</span> <span class="n">at</span><span class="p">:</span>
+<span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">cisco</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">wwl</span><span class="o">/</span><span class="k">export</span><span class="o">/</span><span class="n">crypto</span><span class="o">/</span><span class="k">tool</span><span class="o">/</span><span class="n">stqrg</span><span class="o">.</span><span class="n">html</span>
+
+<span class="n">If</span> <span class="n">you</span> <span class="n">require</span> <span class="n">further</span> <span class="n">assistance</span> <span class="n">please</span> <span class="n">contact</span> <span class="n">us</span> <span class="n">by</span> <span class="n">sending</span> <span class="n">email</span> <span class="n">to</span>
+<span class="k">export</span><span class="err">@</span><span class="n">cisco</span><span class="o">.</span><span class="n">com</span><span class="o">.</span>
+
+<span class="n">License</span> <span class="n">Level</span><span class="p">:</span> <span class="n">ipservices</span>
+<span class="n">License</span> <span class="n">Type</span><span class="p">:</span> <span class="n">Permanent</span> <span class="n">Right</span><span class="o">-</span><span class="n">To</span><span class="o">-</span><span class="n">Use</span>
+<span class="n">Next</span> <span class="n">reload</span> <span class="n">license</span> <span class="n">Level</span><span class="p">:</span> <span class="n">ipservices</span>
+
+<span class="n">cisco</span> <span class="n">WS</span><span class="o">-</span><span class="n">C3560CX</span><span class="o">-</span><span class="mi">8</span><span class="n">PC</span><span class="o">-</span><span class="n">S</span> <span class="p">(</span><span class="n">APM86XXX</span><span class="p">)</span> <span class="n">processor</span> <span class="p">(</span><span class="n">revision</span> <span class="n">A0</span><span class="p">)</span> <span class="n">with</span> <span class="mi">524288</span><span class="n">K</span> <span class="n">bytes</span> <span class="n">of</span> <span class="n">memory</span><span class="o">.</span>
+<span class="n">Processor</span> <span class="n">board</span> <span class="n">ID</span> <span class="n">FOC1911Y0NH</span>
+<span class="n">Last</span> <span class="n">reset</span> <span class="n">from</span> <span class="n">power</span><span class="o">-</span><span class="n">on</span>
+<span class="mi">3</span> <span class="n">Virtual</span> <span class="n">Ethernet</span> <span class="n">interfaces</span>
+<span class="mi">12</span> <span class="n">Gigabit</span> <span class="n">Ethernet</span> <span class="n">interfaces</span>
+<span class="n">The</span> <span class="n">password</span><span class="o">-</span><span class="n">recovery</span> <span class="n">mechanism</span> <span class="k">is</span> <span class="n">enabled</span><span class="o">.</span>
+
+<span class="mi">512</span><span class="n">K</span> <span class="n">bytes</span> <span class="n">of</span> <span class="n">flash</span><span class="o">-</span><span class="n">simulated</span> <span class="n">non</span><span class="o">-</span><span class="n">volatile</span> <span class="n">configuration</span> <span class="n">memory</span><span class="o">.</span>
+<span class="n">Base</span> <span class="n">ethernet</span> <span class="n">MAC</span> <span class="n">Address</span>       <span class="p">:</span> <span class="n">C8</span><span class="p">:</span><span class="mi">00</span><span class="p">:</span><span class="mi">84</span><span class="p">:</span><span class="n">B2</span><span class="p">:</span><span class="n">E9</span><span class="p">:</span><span class="mi">80</span>
+<span class="n">Motherboard</span> <span class="n">assembly</span> <span class="n">number</span>     <span class="p">:</span> <span class="mi">73</span><span class="o">-</span><span class="mi">16471</span><span class="o">-</span><span class="mi">04</span>
+<span class="n">Power</span> <span class="n">supply</span> <span class="n">part</span> <span class="n">number</span>        <span class="p">:</span> <span class="mi">341</span><span class="o">-</span><span class="mi">0675</span><span class="o">-</span><span class="mi">01</span>
+<span class="n">Motherboard</span> <span class="n">serial</span> <span class="n">number</span>       <span class="p">:</span> <span class="n">FOC190608U7</span>
+<span class="n">Power</span> <span class="n">supply</span> <span class="n">serial</span> <span class="n">number</span>      <span class="p">:</span> <span class="n">DCB190430Z0</span>
+<span class="n">Model</span> <span class="n">revision</span> <span class="n">number</span>           <span class="p">:</span> <span class="n">A0</span>
+<span class="n">Motherboard</span> <span class="n">revision</span> <span class="n">number</span>     <span class="p">:</span> <span class="n">A0</span>
+<span class="n">Model</span> <span class="n">number</span>                    <span class="p">:</span> <span class="n">WS</span><span class="o">-</span><span class="n">C3560CX</span><span class="o">-</span><span class="mi">8</span><span class="n">PC</span><span class="o">-</span><span class="n">S</span>
+<span class="n">System</span> <span class="n">serial</span> <span class="n">number</span>            <span class="p">:</span> <span class="n">FOC1911Y0NH</span>
+<span class="n">Top</span> <span class="n">Assembly</span> <span class="n">Part</span> <span class="n">Number</span>        <span class="p">:</span> <span class="mi">68</span><span class="o">-</span><span class="mi">5359</span><span class="o">-</span><span class="mi">01</span>
+<span class="n">Top</span> <span class="n">Assembly</span> <span class="n">Revision</span> <span class="n">Number</span>    <span class="p">:</span> <span class="n">A0</span>
+<span class="n">Version</span> <span class="n">ID</span>                      <span class="p">:</span> <span class="n">V01</span>
+<span class="n">CLEI</span> <span class="n">Code</span> <span class="n">Number</span>                <span class="p">:</span> <span class="n">CMM1400DRA</span>
+<span class="n">Hardware</span> <span class="n">Board</span> <span class="n">Revision</span> <span class="n">Number</span>  <span class="p">:</span> <span class="mh">0x02</span>
+
+
+<span class="n">Switch</span> <span class="n">Ports</span> <span class="n">Model</span>                     <span class="n">SW</span> <span class="n">Version</span>            <span class="n">SW</span> <span class="n">Image</span>
+<span class="o">------</span> <span class="o">-----</span> <span class="o">-----</span>                     <span class="o">----------</span>            <span class="o">----------</span>
+<span class="o">*</span>    <span class="mi">1</span> <span class="mi">12</span>    <span class="n">WS</span><span class="o">-</span><span class="n">C3560CX</span><span class="o">-</span><span class="mi">8</span><span class="n">PC</span><span class="o">-</span><span class="n">S</span>          <span class="mf">15.2</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="n">E7</span>             <span class="n">C3560CX</span><span class="o">-</span><span class="n">UNIVERSALK9</span><span class="o">-</span><span class="n">M</span>
+
+
+<span class="n">Configuration</span> <span class="n">register</span> <span class="k">is</span> <span class="mh">0xF</span>
+
+<span class="n">C3560CX</span><span class="c1">#</span>
+</code></pre></div>
+
+<p>That looks about right! How about config mode?</p>
+<div class="codehilite"><pre><span></span><code><span class="n">C3560CX</span>#<span class="n">configure</span> <span class="n">terminal</span>
+<span class="n">Enter</span> <span class="s">configuration</span> <span class="s">commands,</span> <span class="s">one</span> <span class="s">per</span> <span class="s">line.</span>  <span class="s">End</span> <span class="s">with</span> <span class="s">CNTL/Z.</span>
+<span class="n">C3560CX</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>#<span class="n">show</span> <span class="n">version</span>
+                  ^
+<span class="c">% Invalid input detected at &#39;^&#39; marker.</span>
+
+<span class="n">C3560CX</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>#
+</code></pre></div>
+
+<p>Sending a "show" command in config mode fails like you'd expect too. This is because we "collected" all the 
+requested inputs at every privilege level. We can't send configs really because we didn't collect any and 
+collector/server is not built to deal with configs anyway.</p>
+<p>Ok, back down to exec?</p>
+<div class="codehilite"><pre><span></span><code><span class="n">C3560CX</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>#<span class="n">show</span> <span class="n">version</span>
+                  ^
+<span class="c">% Invalid input detected at &#39;^&#39; marker.</span>
+
+<span class="n">C3560CX</span><span class="p">(</span><span class="n">config</span><span class="p">)</span>#<span class="k">end</span>
+<span class="n">C3560CX</span>#<span class="n">disable</span>
+<span class="n">C3560CX</span><span class="o">&gt;</span><span class="n">enable</span>
+<span class="n">Password</span><span class="p">:</span>
+<span class="n">C3560CX</span>#
+</code></pre></div>
+
+<p>Down to exec no problem, and back up to privilege exec -- remember that the password is "scrapli"!</p>
+<p>Thats about it for scrapli replay server -- the hope is that this can be useful for folks to do a bit of offline 
+testing of basic scrapli (or whatever else really) scripts!</p>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid" aria-label="Footer">
+        
+          <a href="../installation/" class="md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+            </div>
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Installation
+              </div>
+            </div>
+          </a>
+        
+        
+          <a href="../../changelog/" class="md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-footer-nav__title">
+              <div class="md-ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                Changelog
+              </div>
+            </div>
+            <div class="md-footer-nav__button md-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+      </div>
+      
+  <div class="md-footer-social">
+    
+      
+      
+        
+        
+      
+      <a href="https://github.com/carlmontanari/scrapli" target="_blank" rel="noopener" title="github.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 512"><path d="M186.1 328.7c0 20.9-10.9 55.1-36.7 55.1s-36.7-34.2-36.7-55.1 10.9-55.1 36.7-55.1 36.7 34.2 36.7 55.1zM480 278.2c0 31.9-3.2 65.7-17.5 95-37.9 76.6-142.1 74.8-216.7 74.8-75.8 0-186.2 2.7-225.6-74.8-14.6-29-20.2-63.1-20.2-95 0-41.9 13.9-81.5 41.5-113.6-5.2-15.8-7.7-32.4-7.7-48.8 0-21.5 4.9-32.3 14.6-51.8 45.3 0 74.3 9 108.8 36 29-6.9 58.8-10 88.7-10 27 0 54.2 2.9 80.4 9.2 34-26.7 63-35.2 107.8-35.2 9.8 19.5 14.6 30.3 14.6 51.8 0 16.4-2.6 32.7-7.7 48.2 27.5 32.4 39 72.3 39 114.2zm-64.3 50.5c0-43.9-26.7-82.6-73.5-82.6-18.9 0-37 3.4-56 6-14.9 2.3-29.8 3.2-45.1 3.2-15.2 0-30.1-.9-45.1-3.2-18.7-2.6-37-6-56-6-46.8 0-73.5 38.7-73.5 82.6 0 87.8 80.4 101.3 150.4 101.3h48.2c70.3 0 150.6-13.4 150.6-101.3zm-82.6-55.1c-25.8 0-36.7 34.2-36.7 55.1s10.9 55.1 36.7 55.1 36.7-34.2 36.7-55.1-10.9-55.1-36.7-55.1z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://twitter.com/carlrmontanari" target="_blank" rel="noopener" title="twitter.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://www.linkedin.com/in/carl-montanari-47888931/" target="_blank" rel="noopener" title="www.linkedin.com" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>
+      </a>
+    
+      
+      
+        
+        
+      
+      <a href="https://montanari.io" target="_blank" rel="noopener" title="montanari.io" class="md-footer-social__link">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path d="M336.5 160C322 70.7 287.8 8 248 8s-74 62.7-88.5 152h177zM152 256c0 22.2 1.2 43.5 3.3 64h185.3c2.1-20.5 3.3-41.8 3.3-64s-1.2-43.5-3.3-64H155.3c-2.1 20.5-3.3 41.8-3.3 64zm324.7-96c-28.6-67.9-86.5-120.4-158-141.6 24.4 33.8 41.2 84.7 50 141.6h108zM177.2 18.4C105.8 39.6 47.8 92.1 19.3 160h108c8.7-56.9 25.5-107.8 49.9-141.6zM487.4 192H372.7c2.1 21 3.3 42.5 3.3 64s-1.2 43-3.3 64h114.6c5.5-20.5 8.6-41.8 8.6-64s-3.1-43.5-8.5-64zM120 256c0-21.5 1.2-43 3.3-64H8.6C3.2 212.5 0 233.8 0 256s3.2 43.5 8.6 64h114.6c-2-21-3.2-42.5-3.2-64zm39.5 96c14.5 89.3 48.7 152 88.5 152s74-62.7 88.5-152h-177zm159.3 141.6c71.4-21.2 129.4-73.7 158-141.6h-108c-8.8 56.9-25.6 107.8-50 141.6zM19.3 352c28.6 67.9 86.5 120.4 158 141.6-24.4-33.8-41.2-84.7-50-141.6h-108z"/></svg>
+      </a>
+    
+  </div>
+
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../../assets/javascripts/vendor.18f0862e.min.js"></script>
+      <script src="../../assets/javascripts/bundle.994580cf.min.js"></script><script id="__lang" type="application/json">{"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing"}</script>
+      
+      <script>
+        app = initialize({
+          base: "../..",
+          features: [],
+          search: Object.assign({
+            worker: "../../assets/javascripts/worker/search.9c0e82ba.min.js"
+          }, typeof search !== "undefined" && search)
+        })
+      </script>
+      
+    
+  </body>
+</html>
