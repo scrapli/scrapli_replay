@@ -1,6 +1,6 @@
 [![Supported Versions](https://img.shields.io/pypi/pyversions/scrapli-replay.svg)](https://pypi.org/project/scrapli-replay)
 [![PyPI version](https://badge.fury.io/py/scrapli-replay.svg)](https://badge.fury.io/py/scrapli-replay)
-[![Weekly Build](https://github.com/scrapli/scrapli-replay/workflows/Weekly%20Build/badge.svg)](https://github.com/scrapli/scrapli_replay/actions?query=workflow%3A%22Weekly+Build%22)
+[![Weekly Build](https://github.com/scrapli/scrapli_replay/workflows/Weekly%20Build/badge.svg)](https://github.com/scrapli/scrapli_replay/workflows/Weekly%20Build)
 [![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blueviolet.svg)](https://opensource.org/licenses/MIT)
 
