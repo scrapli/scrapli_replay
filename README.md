@@ -1,6 +1,6 @@
 [![Supported Versions](https://img.shields.io/pypi/pyversions/scrapli-replay.svg)](https://pypi.org/project/scrapli-replay)
 [![PyPI version](https://badge.fury.io/py/scrapli-replay.svg)](https://badge.fury.io/py/scrapli-replay)
-[![Weekly Build](https://github.com/scrapli/scrapli-replay/workflows/Weekly%20Build/badge.svg)](https://github.com/scrapli/scrapli-replay/actions?query=workflow%3A%22Weekly+Build%22)
+[![Weekly Build](https://github.com/scrapli/scrapli-replay/workflows/Weekly%20Build/badge.svg)](https://github.com/scrapli/scrapli_replay/actions?query=workflow%3A%22Weekly+Build%22)
 [![Code Style](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/ambv/black)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blueviolet.svg)](https://opensource.org/licenses/MIT)
 
@@ -9,11 +9,11 @@ scrapli_replay
 
 ---
 
-**Documentation**: <a href="https://scrapli.github.io/scrapli-replay" target="_blank">https://scrapli.github.io/scrapli-replay</a>
+**Documentation**: <a href="https://scrapli.github.io/scrapli_replay" target="_blank">https://scrapli.github.io/scrapli_replay</a>
 
-**Source Code**: <a href="https://github.com/scrapli/scrapli-replay" target="_blank">https://github.com/scrapli/scrapli-replay</a>
+**Source Code**: <a href="https://github.com/scrapli/scrapli_replay" target="_blank">https://github.com/scrapli/scrapli_replay</a>
 
-**Examples**: <a href="https://github.com/scrapli/scrapli-replay/tree/master/examples" target="_blank">https://github.com/scrapli/scrapli-replay/tree/master/examples</a>
+**Examples**: <a href="https://github.com/scrapli/scrapli_replay/tree/main/examples/simple_test_case" target="_blank">https://github.com/scrapli/scrapli_replay/tree/main/examples/simple_test_case</a>
 
 ---
 
@@ -39,7 +39,7 @@ look and feel like "real" network devices!
 pip install scrapli_replay
 ```
 
-See the [docs](https://carlmontanari.github.io/scrapli/user_guide/installation) for other installation methods/details.
+See the [docs](https://scrapli.github.io/scrapli_replay/user_guide/installation) for other installation methods/details.
 
 
 
