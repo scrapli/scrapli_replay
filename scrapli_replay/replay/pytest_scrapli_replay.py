@@ -140,13 +140,13 @@ def _scrapli_replay_marker(request: SubRequest) -> None:
 
     """
     function_markers = request.node.own_markers
-    is_scrapli_replay = any([marker.name == "scrapli_replay" for marker in function_markers])
+    is_scrapli_replay = any(marker.name == "scrapli_replay" for marker in function_markers)
 
     if not is_scrapli_replay:
         # not a scrapli replay test function, nothing to do here
         return
 
-    is_asyncio = any([marker.name == "asyncio" for marker in function_markers])
+    is_asyncio = any(marker.name == "asyncio" for marker in function_markers)
 
     if is_asyncio:
         request.getfixturevalue("async_scrapli_replay")
