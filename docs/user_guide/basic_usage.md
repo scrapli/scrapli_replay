@@ -96,7 +96,7 @@ synchronous version. This selection of sync vs async happens transparently to yo
 tests with the `asyncio` marker if they are asyncio (which you had to do anyway, so no biggie!).
 
 While the `ScrapliReplaly` context manager is active (while your test is running) `ScrapliReplay` patches the `open` 
-method of scrapli. When a connection is opened a `ConnectionProfile` is recorded (host/user/is using password/auth 
+method of scrapli and a `ConnectionProfile` is recorded (host/user/is using password/auth 
 bypass/etc.). This `ConnectionProfile` is stored as part of the scrapli replay session data -- allowing us to 
 validate that during subsequent test runs the connection information has not changed (if it has we raise an 
 exception to fail the test).
