@@ -315,6 +315,7 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
         current_event = self.collect_data["events"][self.current_privilege_level][
             self._on_open_state.value
         ].get(channel_input)
+
         if current_event:
             if current_event["type"] == "standard":
                 logger.debug("standard channel event")

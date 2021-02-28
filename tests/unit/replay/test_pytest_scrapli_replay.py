@@ -1,7 +1,11 @@
 import _pytest
 import pytest
 
-from scrapli_replay.replay.pytest_scrapli_replay import _finalize_fixture_args, pytest_addoption
+from scrapli_replay.replay.pytest_scrapli_replay import (
+    _finalize_fixture_args,
+    _scrapli_replay_marker,
+    pytest_addoption,
+)
 
 Parser = _pytest.config.argparsing.Parser
 

@@ -6,7 +6,7 @@ import _pytest
 import pytest
 
 SubRequest = _pytest.fixtures.SubRequest  # pylint: disable=W0212
-Config = _pytest.config.Config  # pylint: disable=W0212
+Config = _pytest.config.Config  # pylint: disable=W0212;
 Parser = _pytest.config.argparsing.Parser  # pylint: disable=W0212
 
 
