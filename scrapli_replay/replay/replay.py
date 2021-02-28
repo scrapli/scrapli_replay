@@ -1,5 +1,6 @@
 """scrapli_replay.replay.replay"""
 import asyncio
+import re
 import types
 from dataclasses import asdict, dataclass
 from datetime import datetime
@@ -24,6 +25,9 @@ from scrapli_replay.exceptions import (
     ScrapliReplayException,
     ScrapliReplayExpectedInputError,
 )
+
+# used to replace scrapli cfg session name/id in channel write log
+SCRAPLI_CFG_SESSION_PATTERN = re.compile(pattern=r"scrapli_cfg_\d+")
 
 
 class ReplayMode(Enum):
@@ -109,6 +113,8 @@ class ScrapliReplay:
         self._patched_open: Optional[mock._patch[Any]] = None
 
         self._wrapped_connection_profile: Optional[ConnectionProfile] = None
+
+        self._scrapli_cfg_session = ""
 
     def __call__(self, wrapped_func: Callable[..., Any]) -> Callable[..., Any]:
         """
@@ -261,8 +267,9 @@ class ScrapliReplay:
         self._patch_read_replay(scrapli_conn=scrapli_conn, device_outputs=device_outputs)
         self._patch_write_replay(scrapli_conn=scrapli_conn, scrapli_inputs=scrapli_inputs)
 
-    @staticmethod
-    def _patch_async_read_replay(scrapli_conn: AsyncDriver, device_outputs: Iterator[str]) -> None:
+    def _patch_async_read_replay(
+        self, scrapli_conn: AsyncDriver, device_outputs: Iterator[str]
+    ) -> None:
         """
         Patch scrapli AsyncChannel read method in "replay" mode
 
@@ -295,6 +302,13 @@ class ScrapliReplay:
             """
             try:
                 buf = next(device_outputs).encode()
+
+                # if we see this string we know we actually need to ship out the current scrapli cfg
+                # session name that we capture during the replay write method
+                if b"__SCRAPLI_CFG_SESSION_NAME__" in buf and self._scrapli_cfg_session:
+                    buf = self._scrapli_cfg_session.encode()
+                    self._scrapli_cfg_session = ""
+
             except StopIteration as exc:
                 msg = "No more device outputs to replay"
                 raise ScrapliReplayException(msg) from exc
@@ -311,8 +325,7 @@ class ScrapliReplay:
 
         scrapli_conn.channel.read = types.MethodType(patched_read, scrapli_conn.channel)
 
-    @staticmethod
-    def _patch_read_replay(scrapli_conn: Driver, device_outputs: Iterator[str]) -> None:
+    def _patch_read_replay(self, scrapli_conn: Driver, device_outputs: Iterator[str]) -> None:
         """
         Patch scrapli Channel read method in "replay" mode
 
@@ -345,6 +358,13 @@ class ScrapliReplay:
             """
             try:
                 buf = next(device_outputs).encode()
+
+                # if we see this string we know we actually need to ship out the current scrapli cfg
+                # session name that we capture during the replay write method
+                if b"__SCRAPLI_CFG_SESSION_NAME__" in buf and self._scrapli_cfg_session:
+                    buf = self._scrapli_cfg_session.encode()
+                    self._scrapli_cfg_session = ""
+
             except StopIteration as exc:
                 msg = "No more device outputs to replay"
                 raise ScrapliReplayException(msg) from exc
@@ -361,9 +381,8 @@ class ScrapliReplay:
 
         scrapli_conn.channel.read = types.MethodType(patched_read, scrapli_conn.channel)
 
-    @staticmethod
     def _patch_write_replay(
-        scrapli_conn: Union[AsyncDriver, Driver], scrapli_inputs: Iterator[Tuple[str, bool]]
+        self, scrapli_conn: Union[AsyncDriver, Driver], scrapli_inputs: Iterator[Tuple[str, bool]]
     ) -> None:
         """
         Patch scrapli Channel write method in "replay" mode
@@ -398,8 +417,21 @@ class ScrapliReplay:
             """
             expected_input, expected_redacted = next(scrapli_inputs)
 
-            channel_input = "REDACTED" if redacted else channel_input
-            if not all((expected_input == channel_input, expected_redacted == redacted)):
+            if redacted is True:
+                _channel_input = "REDACTED"
+            elif re.search(pattern=SCRAPLI_CFG_SESSION_PATTERN, string=channel_input):
+                _channel_input = re.sub(
+                    pattern=SCRAPLI_CFG_SESSION_PATTERN,
+                    string=channel_input,
+                    repl="__SCRAPLI_CFG_SESSION_NAME__",
+                )
+                # if we see a scrapli cfg session in the replay we have to store it as it has a
+                # timestamp -- we need to replay this back so scrapli doesnt break
+                self._scrapli_cfg_session = channel_input
+            else:
+                _channel_input = channel_input
+
+            if not all((expected_input == _channel_input, expected_redacted == redacted)):
                 msg = "expected channel input does not match actual channel input"
                 raise ScrapliReplayExpectedInputError(msg)
 
@@ -457,7 +489,7 @@ class ScrapliReplay:
 
         """
 
-        async def patched_read(cls: Channel) -> bytes:
+        async def patched_read(cls: AsyncChannel) -> bytes:
             """
             Patched Channel.read method
 
@@ -518,7 +550,6 @@ class ScrapliReplay:
 
             """
             buf: bytes = cls.transport.read()
-
             buf = buf.replace(b"\r", b"")
 
             self._read_log.write(buf)
@@ -569,7 +600,12 @@ class ScrapliReplay:
                 N/A
 
             """
-            self._write_log.append((channel_input, redacted, self._read_log.tell()))
+            _channel_input = re.sub(
+                pattern=SCRAPLI_CFG_SESSION_PATTERN,
+                repl="__SCRAPLI_CFG_SESSION_NAME__",
+                string=channel_input,
+            )
+            self._write_log.append((_channel_input, redacted, self._read_log.tell()))
 
             log_output = "REDACTED" if redacted else repr(channel_input)
             cls.logger.debug(f"write: {log_output}")
@@ -859,6 +895,13 @@ class ScrapliReplay:
                 # unclear if this will ever be a problem... leaving it in this try/except for
                 # posterity...
                 channel_output = channel_bytes_output.decode(errors="ignore")
+
+            # replace any output w/ the scrapli cfg replace pattern
+            channel_output = re.sub(
+                pattern=SCRAPLI_CFG_SESSION_PATTERN,
+                repl="__SCRAPLI_CFG_SESSION_NAME__",
+                string=channel_output,
+            )
 
             replay_session["interactions"].append(
                 {
