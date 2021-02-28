@@ -578,6 +578,45 @@ class ScrapliReplay:
 
         scrapli_conn.channel.write = types.MethodType(patched_write, scrapli_conn.channel)
 
+    def _telnet_patch_update_log(self, auth_username: str) -> None:
+        """
+        Patch the read log for telnet connections
+
+        This method removes "leading dead space" and any extra returns/dead space between user and
+        password and the first prompt/banner showing up. This only is necessary for telnet conns.
+
+        Args:
+             auth_username: username from the patched scrapli object
+
+        Returns:
+            None
+
+        Raises:
+            N/A
+
+        """
+        updated_write_log = []
+        for write_log_entry in self._write_log:
+            updated_write_log.append(write_log_entry)
+            if write_log_entry[1] is True:
+                break
+        # append the *last* entry in the write log back to the updated list -- this will
+        # get us reading up through the banner/initial prompt
+        updated_write_log.append(self._write_log[-1])
+
+        # for telnet connections we may have some "dead space" (empty reads) at the
+        # beginning of the interactions, get rid of that as it is not needed here
+        index = 0
+        for index, write_log_entry in enumerate(updated_write_log):
+            if write_log_entry[0] == auth_username:
+                # we've got the index of the updated write log starting at the username
+                # we know we can slice everything off before this now
+                break
+        updated_write_log = updated_write_log[index:]
+
+        # finally update the replay class write log w/ our modified version
+        self._write_log = updated_write_log
+
     def __enter__(self) -> None:
         """
         Enter method for context manager
@@ -637,6 +676,8 @@ class ScrapliReplay:
                 cls.channel.channel_authenticate_telnet(
                     auth_username=cls.auth_username, auth_password=cls.auth_password
                 )
+                if self.replay_mode == ReplayMode.RECORD:
+                    self._telnet_patch_update_log(auth_username=cls.auth_username)
 
             if cls.on_open:
                 cls.on_open(cls)
@@ -734,6 +775,8 @@ class ScrapliReplay:
                 await cls.channel.channel_authenticate_telnet(
                     auth_username=cls.auth_username, auth_password=cls.auth_password
                 )
+                if self.replay_mode == ReplayMode.RECORD:
+                    self._telnet_patch_update_log(auth_username=cls.auth_username)
 
             if cls.on_open:
                 await cls.on_open(cls)
@@ -808,11 +851,18 @@ class ScrapliReplay:
         previous_read_to_position = 0
         for write_data in self._write_log:
             write_input, redacted, read_to_position = write_data
+
+            channel_bytes_output = self._read_log.read(read_to_position - previous_read_to_position)
+            try:
+                channel_output = channel_bytes_output.decode()
+            except UnicodeDecodeError:
+                # unclear if this will ever be a problem... leaving it in this try/except for
+                # posterity...
+                channel_output = channel_bytes_output.decode(errors="ignore")
+
             replay_session["interactions"].append(
                 {
-                    "channel_output": self._read_log.read(
-                        read_to_position - previous_read_to_position
-                    ).decode(),
+                    "channel_output": channel_output,
                     "expected_channel_input": write_input if not redacted else "REDACTED",
                     "expected_channel_input_redacted": redacted,
                 }
@@ -830,6 +880,7 @@ class ScrapliReplay:
                     "expected_channel_input_redacted": False,
                 }
             )
+
         return replay_session
 
     def _save(self) -> None:

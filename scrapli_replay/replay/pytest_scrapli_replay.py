@@ -88,7 +88,7 @@ def pytest_load_initial_conftests(early_config: Config, parser: Parser, args: An
     )
 
 
-def _finalize_fixture_args(request: SubRequest) -> Tuple[str, str, List[str], bool, str, str]:
+def _finalize_fixture_args(request: SubRequest) -> Tuple[str, str, List[str], bool, str]:
     """
     Finalize the arguments for a wrapped test
 
@@ -114,11 +114,11 @@ def _finalize_fixture_args(request: SubRequest) -> Tuple[str, str, List[str], bo
         session_directory = f"{Path(request.module.__file__).parents[0]}/scrapli_replay_sessions"
     Path(session_directory).mkdir(exist_ok=True)
 
-    # get test module/function name to build session name
-    test_module = request.module.__name__
-    test_name = request.function.__name__
+    test_name = request.node.name
+    if request.cls:
+        test_name = f"{request.cls.__name__}.{test_name}"
 
-    return opt_replay_mode, session_directory, opt_overwrite, opt_disable, test_module, test_name
+    return opt_replay_mode, session_directory, opt_overwrite, opt_disable, test_name
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -179,7 +179,6 @@ def scrapli_replay(request: SubRequest) -> Iterator[None]:
         session_directory,
         opt_overwrite,
         opt_disable,
-        test_module,
         test_name,
     ) = _finalize_fixture_args(request=request)
 
@@ -189,7 +188,7 @@ def scrapli_replay(request: SubRequest) -> Iterator[None]:
     if not opt_disable:
         with ScrapliReplay(
             session_directory=session_directory,
-            session_name=f"{test_module}_{test_name}",
+            session_name=test_name,
             replay_mode=opt_replay_mode,
         ):
             yield
@@ -223,7 +222,6 @@ async def async_scrapli_replay(request: SubRequest) -> AsyncIterator[None]:
         session_directory,
         opt_overwrite,
         opt_disable,
-        test_module,
         test_name,
     ) = _finalize_fixture_args(request=request)
 
@@ -233,7 +231,7 @@ async def async_scrapli_replay(request: SubRequest) -> AsyncIterator[None]:
     if not opt_disable:
         async with ScrapliReplay(
             session_directory=session_directory,
-            session_name=f"{test_module}_{test_name}",
+            session_name=test_name,
             replay_mode=opt_replay_mode,
         ):
             yield

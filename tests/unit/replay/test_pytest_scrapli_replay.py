@@ -59,11 +59,16 @@ def test_finalize_fixture_args(fs):
     class DummyFunction:
         __name__ = "mytestfunc"
 
+    class DummyNode:
+        name = "sometestnode"
+
     class DummyRequest:
         def __init__(self):
             self.config = DummyConfig()
             self.module = DummyModule()
             self.function = DummyFunction()
+            self.node = DummyNode()
+            self.cls = None
 
     request = DummyRequest()
 
@@ -72,6 +77,5 @@ def test_finalize_fixture_args(fs):
         "sessiondir",
         ["thistest", "thisonetoo"],
         True,
-        "mytestmodule",
-        "mytestfunc",
+        "sometestnode",
     )
