@@ -142,7 +142,7 @@ def test_example_do_stuff_patching(monkeypatch, example_instance):
 ```
 
 This works reasonably well, and properly tests our regex does indeed find the version string; of course you could 
-actually return a real device output instead of hte abbreviated output here as well -- that would make things a bit 
+actually return a real device output instead of the abbreviated output here as well -- that would make things a bit 
 more "real". This is nice, but it does not test any scrapli behavior at all as scrapli is completely patched out of 
 the test. There must be a better way!
 
@@ -397,6 +397,9 @@ collector.dump()
 The session data will be dumped to a yaml file called "scrapli_replay_collector_session.yaml" (configurable with the 
 `collector_session_filename` argument) in your current directory. Once you have a session stored, you can run the 
 "server" to create a semi-interactive ssh server!
+
+*Note* -- unless you have real dns server(s) setup, and you can resolve things, you should disable domain-lookup -- 
+if you don't the timeouts may (will!?) get exceeded and it will cuase collection to fail in confusing ways.
 
 
 ### Server

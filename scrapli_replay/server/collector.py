@@ -8,6 +8,7 @@ from ruamel.yaml import YAML  # type: ignore
 
 from scrapli import Scrapli
 from scrapli.channel.sync_channel import Channel
+from scrapli.driver.core import EOSDriver
 from scrapli.driver.network.sync_driver import NetworkDriver
 from scrapli.exceptions import ScrapliConnectionError
 from scrapli.helper import user_warning
@@ -826,6 +827,13 @@ class ScrapliCollector:
         self._extend_all_expected_prompts()
 
         self._collect_priv_and_open_close()
+
+        if isinstance(self.scrapli_connection, EOSDriver):
+            # arista will leave paging enabled even after you exit a connection... kinda throws
+            # things off! so we'll put it back... hate having one off things like this but not sure
+            # there is another easy fix
+            self.scrapli_connection.send_command(command="no terminal length")
+
         self._collect()
 
         # close the connection, and reassign the "normal" on open so we can capture everything
