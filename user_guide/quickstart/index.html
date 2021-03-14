@@ -567,16 +567,20 @@
 <h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
 <p>In most cases installation via pip is the simplest and best way to install scrapli replay.
 See <a href="/user_guide/installation">here</a> for advanced installation details.</p>
-<div class="codehilite"><pre><span></span><code><span class="err">pip install scrapli-replay</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>pip install scrapli-replay
 </code></pre></div>
-
+</td></tr></table>
 <h2 id="a-simple-example-pytest">A Simple Example (Pytest)<a class="headerlink" href="#a-simple-example-pytest" title="Permanent link">&para;</a></h2>
 <p>Simply mark your tests containing scrapli code with the <code>scrapli_replay</code> marker:</p>
-<div class="codehilite"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">scrapli_replay</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="nd">@pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">scrapli_replay</span>
 <span class="k">def</span> <span class="nf">test_something_else</span><span class="p">():</span>
     <span class="k">with</span> <span class="n">IOSXEDriver</span><span class="p">(</span><span class="o">**</span><span class="n">MY_DEVICE</span><span class="p">)</span> <span class="k">as</span> <span class="n">conn</span><span class="p">:</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">send_command</span><span class="p">(</span><span class="s2">&quot;show run | i hostname&quot;</span><span class="p">)</span>
 </code></pre></div>
+</td></tr></table>
                 
               
               
