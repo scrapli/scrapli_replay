@@ -11,7 +11,9 @@ inputs and outputs and save them, that way you can store these test sessions and
 "live" device) in your CI setup.
 
 The second, is a "collector", and a "server" that allow you to build semi-interactive SSH servers that you can 
-connect to for testing purposes.
+connect to for testing purposes. This allows you to have "mock"/"fake"/"dummy" SSH server(s) that look and feel like 
+"real" network devices -- as with the pytest plugin, this could be useful in CI, or it could just be handy for 
+offline testing.
 
 As you'd expect, if you are writing tests and wanting to have some reasonable assurances that your code that 
 interacts with scrapli is doing what you think it should be doing, then you probably want to use the pytest plugin! 
@@ -23,7 +25,7 @@ If you just want to have a mock SSH server to play with, then the collector/serv
 ### Overview and Use Case
 
 As shown in the quickstart guide, getting going with the pytest plugin is fairly straightforward -- tests that 
-contain scrapli operations can be marked with the `scrapli_replay` marker, causing scrapli replay to automagically 
+contain scrapli operations can be marked with the `scrapli_replay` marker, causing scrapli replay to automatically 
 wrap this test and record or replay sessions within the test.
 
 In order for scrapli replay to do this, there is one big caveat: the scrapli connection *must be opened within the 
@@ -95,7 +97,7 @@ manager. For tests that are marked `asyncio` we simply use the async context man
 synchronous version. This selection of sync vs async happens transparently to you --  you just need to mark your 
 tests with the `asyncio` marker if they are asyncio (which you had to do anyway, so no biggie!).
 
-While the `ScrapliReplaly` context manager is active (while your test is running) `ScrapliReplay` patches the `open` 
+While the `ScrapliReplay` context manager is active (while your test is running) `ScrapliReplay` patches the `open` 
 method of scrapli and a `ConnectionProfile` is recorded (host/user/is using password/auth 
 bypass/etc.). This `ConnectionProfile` is stored as part of the scrapli replay session data -- allowing us to 
 validate that during subsequent test runs the connection information has not changed (if it has we raise an 
@@ -225,7 +227,7 @@ As you can see, connection details are stored (but never credentials) -- in the 
 password is not stored and is marked as "REDACTED" in the interactions output.
 
 Running the test again you'll notice that its even faster than scrapli normally is! Why? Because there is no actual 
-connection going out to the device, the connection will just be automagically replayed from this session data!
+connection going out to the device, the connection will just be automatically replayed from this session data!
 
 Now if you have a billion tests to write, or you are needing to pass lots of inputs in order to create your scrapli 
 connection objects in every single test... that wouldn't be very fun! In cases like this it would be a great idea to 
@@ -305,11 +307,21 @@ python -m pytest tests --scrapli-replay-overwrite test1,test2,test3
 
 #### Disable
 
-Finally, you can disable entirely the scrapli replay functionality -- meaning your tests will run "normally" without 
+You can disable entirely the scrapli replay functionality -- meaning your tests will run "normally" without 
 any of the scrapli replay patching/session work happening. This is done with the `--scrapli-replay-disable` flag.
 
 ```bash
 python -m pytest tests --scrapli-replay-disable
+```
+
+#### Block Network
+
+Finally, you can "block" network connections -- this will cause any connection with a valid recorded session to be 
+"replay"'d as normal, but any tests that would require recording a session will be skipped. The 
+`--scrapli-replay-block-network` flag controls this.
+
+```bash
+python -m pytest tests --scrapli-replay-block-network
 ```
 
 
@@ -433,20 +445,24 @@ There are several big caveats to be aware of!
 - Credentials: username/password (including for "enable" password) will always be "scrapli", as mentioned this is to 
   keep things simple and not deal with storing any credential data
 - Configs: configuration things are not supported and probably won't ever be. It would be a lot of work to keep 
-  track of when/if a user sends a config and what the resulting configuration would look like...
-- Paging: if you execute a command that would not complete due to paging not being disabled (i.e. "show run" before 
-  "terminal lenght 0") the server will also not complete the show command -- sending a return at this point will get 
-  you back to the prompt. This is intentional -- if you use the server to test scrapli scripts we want things to 
-  look/feel like real... meaning scrapli would be stuck here looking for a prompt it can never find and eventually 
-  time out.
-- Paging again...: You must send *all* commands from the "on_open" function of a driver in order to disable paging...
-  yes of course "terminal length 0" would disable paging for a "show run" command on an IOS-XE device, *but* we only 
-  know that the "on_open" function of the IOS-XE driver runs both "terminal length 0" AND "terminal width 512"... 
-  until both of these commands are seen paging is not disabled.
-- Paging again... again...: Paging cannot be disabled other than exiting and reconnecting to the mock server. As 
-  scrapli doesnt know how to re-enable paging we can't know that for the collector either.
+  track of when/if a user sends a config and what the resulting configuration would look like.
+
+The remaining major caveats are all around the "paging" behavior of the mock server(s). Before diving into these 
+caveats, it is worth knowing a little bit about how scrapli behaves in general. Typical scrapli connections are 
+opened, and an "on_open" function is executed -- this function normally disables pagination on a device, this is done so 
+scrapli never has to deal with prompts like "--More--" during the output of a command. The collector/server stores 
+the commands that are executed in the "on_open" function, and *assumes* that these commands disable pagination for 
+the given device (this is true for all core platforms, so it *must* be true, right? :)). With that out of the way:
+
+- Disabling pagination requires *all* "on_open" commands to be executed: if the "on_open" command for your platform 
+  contains "terminal length 0" and "terminal width 512", *both* commands must be seen before the server will disable 
+  pagination. If you send just "terminal length 0" (even though this disables pagination on IOSXE/etc.) but have 
+  *not* also sent "terminal width 512" the server will show you paginated output!
+- Re-enabling pagination/logging in/out: You cannot *re-enable* pagination on the server, the only way to do this is 
+  to exit/re-connect. This is because the collector has no way to know what commands are actually doing/what 
+  commands disable/re-enable pagination (and we would never re-enable pagination in scrapli anyway!).
   
-With all the bad stuff out of the way, let's check out a mock server:
+With all the caveats out of the way, let's check out a mock server:
 
 ```
 $ ssh localhost -p 2001 -l scrapli

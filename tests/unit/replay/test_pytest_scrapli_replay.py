@@ -30,6 +30,7 @@ def test_scrapli_replay_options():
             "--scrapli-replay-overwrite",
             "sometest,sometest1",
             "--scrapli-replay-disable",
+            "--scrapli-replay-block-network",
             ".",
         ]
     )
@@ -37,6 +38,7 @@ def test_scrapli_replay_options():
     assert parsed_options.scrapli_replay_directory == "blah/blah"
     assert parsed_options.scrapli_replay_overwrite == "sometest,sometest1"
     assert parsed_options.scrapli_replay_disable is True
+    assert parsed_options.scrapli_replay_block_network is True
 
 
 def test_finalize_fixture_args(fs):
@@ -49,6 +51,7 @@ def test_finalize_fixture_args(fs):
             self.scrapli_replay_directory = "sessiondir"
             self.scrapli_replay_overwrite = "thistest,thisonetoo"
             self.scrapli_replay_disable = True
+            self.scrapli_replay_block_network = True
 
         def getoption(self, opt):
             return getattr(self, opt)
@@ -78,4 +81,5 @@ def test_finalize_fixture_args(fs):
         ["thistest", "thisonetoo"],
         True,
         "sometestnode",
+        True,
     )

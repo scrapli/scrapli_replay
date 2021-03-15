@@ -59,12 +59,13 @@ def test_collector_instantiation(scrapli_conn):
     # assert the privilege patterns all get figured out and set
     assert collector._privilege_escalate_inputs == ["configure terminal", "tclsh"]
     assert collector._privilege_deescalate_inputs == ["disable", "end", "tclquit"]
-    assert collector._interact_privilege_escalations == [
-        [
-            ("enable", "^(?:enable\\s){0,1}password:\\s?$", False),
-            ("__AUTH_SECONDARY__", "^((?!tcl)[a-z0-9.\\-_@/:]){1,63}#$", True),
-        ]
-    ]
+    # generalizing this to not be *exact* in case scrapli core stuff changes
+    assert collector._interact_privilege_escalations[0][0][0] == "enable"
+    assert "assword" in collector._interact_privilege_escalations[0][0][1]
+    assert collector._interact_privilege_escalations[0][0][2] is False
+    assert collector._interact_privilege_escalations[0][1][0] == "__AUTH_SECONDARY__"
+    assert collector._interact_privilege_escalations[0][1][1].endswith("#$")
+    assert collector._interact_privilege_escalations[0][1][2] is True
 
     # check to make sure we start off the all expected patterns with the paging indicator
     assert collector.all_expected_patterns == ["--More--"]

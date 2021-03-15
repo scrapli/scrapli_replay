@@ -57,7 +57,17 @@ def pytest_addoption(parser: Parser) -> None:
         action="store_true",
         dest="scrapli_replay_disable",
         default=False,
-        help=("Disable scrapli_replay entirely"),
+        help="Disable scrapli_replay entirely",
+    )
+    group.addoption(
+        "--scrapli-replay-block-network",
+        action="store_true",
+        dest="scrapli_replay_block_network",
+        default=False,
+        help=(
+            "Disable scrapli_replay network connections -- tests will work *if* sessions are "
+            "already saved, no new sessions will be created/no connections will be made!"
+        ),
     )
 
 
@@ -88,7 +98,7 @@ def pytest_load_initial_conftests(early_config: Config, parser: Parser, args: An
     )
 
 
-def _finalize_fixture_args(request: SubRequest) -> Tuple[str, str, List[str], bool, str]:
+def _finalize_fixture_args(request: SubRequest) -> Tuple[str, str, List[str], bool, str, bool]:
     """
     Finalize the arguments for a wrapped test
 
@@ -106,6 +116,7 @@ def _finalize_fixture_args(request: SubRequest) -> Tuple[str, str, List[str], bo
     opt_config_dir = request.config.getoption("scrapli_replay_directory")
     opt_overwrite = request.config.getoption("scrapli_replay_overwrite").split(",")
     opt_disable = request.config.getoption("scrapli_replay_disable")
+    opt_block_network = request.config.getoption("scrapli_replay_block_network")
 
     # set and make sure session directory exists
     if opt_config_dir:
@@ -118,7 +129,14 @@ def _finalize_fixture_args(request: SubRequest) -> Tuple[str, str, List[str], bo
     if request.cls:
         test_name = f"{request.cls.__name__}.{test_name}"
 
-    return opt_replay_mode, session_directory, opt_overwrite, opt_disable, test_name
+    return (
+        opt_replay_mode,
+        session_directory,
+        opt_overwrite,
+        opt_disable,
+        test_name,
+        opt_block_network,
+    )
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -180,6 +198,7 @@ def scrapli_replay(request: SubRequest) -> Iterator[None]:
         opt_overwrite,
         opt_disable,
         test_name,
+        opt_block_network,
     ) = _finalize_fixture_args(request=request)
 
     if test_name in opt_overwrite:
@@ -190,6 +209,7 @@ def scrapli_replay(request: SubRequest) -> Iterator[None]:
             session_directory=session_directory,
             session_name=test_name,
             replay_mode=opt_replay_mode,
+            block_network=opt_block_network,
         ):
             yield
     else:
@@ -223,6 +243,7 @@ async def async_scrapli_replay(request: SubRequest) -> AsyncIterator[None]:
         opt_overwrite,
         opt_disable,
         test_name,
+        opt_block_network,
     ) = _finalize_fixture_args(request=request)
 
     if test_name in opt_overwrite:
@@ -233,6 +254,7 @@ async def async_scrapli_replay(request: SubRequest) -> AsyncIterator[None]:
             session_directory=session_directory,
             session_name=test_name,
             replay_mode=opt_replay_mode,
+            block_network=opt_block_network,
         ):
             yield
     else:

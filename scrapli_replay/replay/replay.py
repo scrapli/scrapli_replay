@@ -11,6 +11,7 @@ from types import TracebackType
 from typing import Any, Callable, Dict, Iterator, List, Optional, Tuple, Type, Union
 from unittest import mock
 
+import pytest
 from ruamel.yaml import YAML, safe_load  # type: ignore
 
 import scrapli
@@ -58,6 +59,7 @@ class ScrapliReplay:
         session_directory: Optional[str] = None,
         session_name: Optional[str] = None,
         replay_mode: str = "record",
+        block_network: bool = False,
     ) -> None:
         """
         Scrapli replay
@@ -66,6 +68,8 @@ class ScrapliReplay:
             session_directory: directory to write session data to
             session_name: name of session to write out
             replay_mode: replay mode to use
+            block_network: if set to True, no network connections will be made, though any stored
+                sessions will be ran normally
 
         Returns:
             None
@@ -106,6 +110,12 @@ class ScrapliReplay:
         if self.replay_mode == ReplayMode.REPLAY:
             with open(f"{self.session_directory}/{self.session_name}.yaml", "r") as f:
                 self.replay_session = safe_load(f)
+            if not self.replay_session["interactions"]:
+                # if we open a session and there are no interactions recorded then something is not
+                # right -- we will need to re-record a session
+                self.replay_mode = ReplayMode.RECORD
+
+        self._block_network = block_network
 
         self._read_log = BytesIO()
         self._write_log: List[Tuple[str, bool, int]] = []
@@ -689,6 +699,14 @@ class ScrapliReplay:
             if self.replay_mode == ReplayMode.REPLAY:
                 self._setup_replay_mode(scrapli_conn=cls)
             else:
+                if self._block_network is True:
+                    # if block network is true and we got here then there is no session recorded, so
+                    # we need to skip this test
+                    pytest.skip(
+                        "scrapli-replay block-network is True, no session recorded, "
+                        "skipping test..."
+                    )
+
                 # if we are not in replay mode, we are in record or overwrite (same/same) so setup
                 # the record read/write channel methods and then do "normal" stuff
                 self._setup_record_mode(scrapli_conn=cls)
@@ -793,6 +811,14 @@ class ScrapliReplay:
             if self.replay_mode == ReplayMode.REPLAY:
                 self._setup_async_replay_mode(scrapli_conn=cls)
             else:
+                if self._block_network is True:
+                    # if block network is true and we got here then there is no session recorded, so
+                    # we need to skip this test
+                    pytest.skip(
+                        "scrapli-replay block-network is True, no session recorded, "
+                        "skipping test..."
+                    )
+
                 # if we are not in replay mode, we are in record or overwrite (same/same) so setup
                 # the record read/write channel methods and then do "normal" stuff
                 self._setup_async_record_mode(scrapli_conn=cls)

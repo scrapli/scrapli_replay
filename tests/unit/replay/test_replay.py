@@ -22,14 +22,17 @@ def test_scrapli_replay_basic():
 
 
 def test_scrapli_replay_existing_session(fs):
-    fs.create_file(f"{Path.cwd()}/test1.yaml", contents="---\nsomekey: somevalue\n")
+    fs.create_file(
+        f"{Path.cwd()}/test1.yaml",
+        contents="---\nsomekey: somevalue\n\ninteractions:\n  - something",
+    )
     # set replay mode to record, but will end up as replay as session exists!
     # pyfakefs does not like additional slashes in path it seems... so just set it to empty string
     replay = ScrapliReplay(session_directory="", session_name="test1", replay_mode="record")
     assert str(replay.session_directory) == "."
     assert replay.session_name == "test1"
     assert replay.replay_mode == ReplayMode.REPLAY
-    assert replay.replay_session == {"somekey": "somevalue"}
+    assert replay.replay_session == {"interactions": ["something"], "somekey": "somevalue"}
     assert isinstance(replay._read_log, BytesIO)
     assert replay._write_log == []
     assert replay._patched_open is None
@@ -42,7 +45,10 @@ def test_scrapli_replay_invalid_replay_mode():
 
 
 def test_session_exists(fs):
-    fs.create_file(f"{Path.cwd()}test1.yaml", contents="---\nsomekey: somevalue\n")
+    fs.create_file(
+        f"{Path.cwd()}/test1.yaml",
+        contents="---\nsomekey: somevalue\n\ninteractions:\n  - something",
+    )
     replay = ScrapliReplay(session_directory="", session_name="test1", replay_mode="record")
     assert replay._session_exists() is True
     fs.remove_object(f"{Path.cwd()}test1.yaml")

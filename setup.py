@@ -1,9 +1,11 @@
 #!/usr/bin/env python
-"""scrapli-replay - scrapli mock server and pytest plugin"""
+"""scrapli-replay - tools to enable easy testing of scrapli programs"""
+from pathlib import Path
+
 import setuptools
 
 __author__ = "Carl Montanari"
-__version__ = "2021.07.30a3"
+__version__ = "2021.07.30a4"
 
 
 with open("README.md", "r", encoding="utf-8") as f:
@@ -12,6 +14,11 @@ with open("README.md", "r", encoding="utf-8") as f:
 
 with open("requirements.txt", "r") as f:
     INSTALL_REQUIRES = f.read().splitlines()
+
+
+def get_packages(package):
+    """Return root package and all sub-packages"""
+    return [str(path.parent) for path in Path(package).glob("**/__init__.py")]
 
 
 setuptools.setup(
@@ -27,7 +34,9 @@ setuptools.setup(
     url="https://github.com/scrapli/scrapli-replay",
     project_urls={"Changelog": "https://scrapli.github.io/scrapli/scrapli_repaly/chnagelog"},
     license="MIT",
-    packages=setuptools.find_packages(),
+    # include scrapli_cfg of course, but make sure to also include py.typed!
+    package_data={"scrapli_replay": ["py.typed"]},
+    packages=get_packages("scrapli_replay"),
     install_requires=INSTALL_REQUIRES,
     extras_require={},
     classifiers=[
@@ -45,4 +54,7 @@ setuptools.setup(
     ],
     python_requires=">=3.6",
     entry_points={"pytest11": ["scrapli_replay = scrapli_replay.replay.pytest_scrapli_replay"]},
+    # zip_safe False for mypy
+    # https://mypy.readthedocs.io/en/stable/installed_packages.html
+    zip_safe=False,
 )
