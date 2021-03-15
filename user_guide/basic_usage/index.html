@@ -395,6 +395,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#block-network" class="md-nav__link">
+    Block Network
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -706,6 +713,13 @@
           <li class="md-nav__item">
   <a href="#disable" class="md-nav__link">
     Disable
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#block-network" class="md-nav__link">
+    Block Network
   </a>
   
 </li>
@@ -1103,9 +1117,16 @@ switch. This argument accepts a comma separated list of test names of which to o
 </code></pre></div>
 </td></tr></table>
 <h4 id="disable">Disable<a class="headerlink" href="#disable" title="Permanent link">&para;</a></h4>
-<p>Finally, you can disable entirely the scrapli replay functionality -- meaning your tests will run "normally" without 
+<p>You can disable entirely the scrapli replay functionality -- meaning your tests will run "normally" without 
 any of the scrapli replay patching/session work happening. This is done with the <code>--scrapli-replay-disable</code> flag.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>python -m pytest tests --scrapli-replay-disable
+</code></pre></div>
+</td></tr></table>
+<h4 id="block-network">Block Network<a class="headerlink" href="#block-network" title="Permanent link">&para;</a></h4>
+<p>Finally, you can "block" network connections -- this will cause any connection with a valid recorded session to be 
+"replay"'d as normal, but any tests that would require recording a session will be skipped. The 
+<code>--scrapli-replay-block-network</code> flag controls this.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>python -m pytest tests --scrapli-replay-block-network
 </code></pre></div>
 </td></tr></table>
 <h2 id="collector-and-server">Collector and Server<a class="headerlink" href="#collector-and-server" title="Permanent link">&para;</a></h2>
@@ -1242,20 +1263,24 @@ server -- this is done so we never have to deal with or think about storing cred
 <li>Credentials: username/password (including for "enable" password) will always be "scrapli", as mentioned this is to 
   keep things simple and not deal with storing any credential data</li>
 <li>Configs: configuration things are not supported and probably won't ever be. It would be a lot of work to keep 
-  track of when/if a user sends a config and what the resulting configuration would look like...</li>
-<li>Paging: if you execute a command that would not complete due to paging not being disabled (i.e. "show run" before 
-  "terminal length 0") the server will also not complete the show command -- sending a return at this point will get 
-  you back to the prompt. This is intentional -- if you use the server to test scrapli scripts we want things to 
-  look/feel like real... meaning scrapli would be stuck here looking for a prompt it can never find and eventually 
-  time out.</li>
-<li>Paging again...: You must send <em>all</em> commands from the "on_open" function of a driver in order to disable paging...
-  yes of course "terminal length 0" would disable paging for a "show run" command on an IOS-XE device, <em>but</em> we only 
-  know that the "on_open" function of the IOS-XE driver runs both "terminal length 0" AND "terminal width 512"... 
-  until both of these commands are seen paging is not disabled.</li>
-<li>Paging again... again...: Paging cannot be disabled other than exiting and reconnecting to the mock server. As 
-  scrapli doesnt know how to re-enable paging we can't know that for the collector either.</li>
+  track of when/if a user sends a config and what the resulting configuration would look like.</li>
 </ul>
-<p>With all the bad stuff out of the way, let's check out a mock server:</p>
+<p>The remaining major caveats are all around the "paging" behavior of the mock server(s). Before diving into these 
+caveats, it is worth knowing a little bit about how scrapli behaves in general. Typical scrapli connections are 
+opened, and an "on_open" function is executed -- this function normally disables pagination on a device, this is done so 
+scrapli never has to deal with prompts like "--More--" during the output of a command. The collector/server stores 
+the commands that are executed in the "on_open" function, and <em>assumes</em> that these commands disable pagination for 
+the given device (this is true for all core platforms, so it <em>must</em> be true, right? :)). With that out of the way:</p>
+<ul>
+<li>Disabling pagination requires <em>all</em> "on_open" commands to be executed: if the "on_open" command for your platform 
+  contains "terminal length 0" and "terminal width 512", <em>both</em> commands must be seen before the server will disable 
+  pagination. If you send just "terminal length 0" (even though this disables pagination on IOSXE/etc.) but have 
+  <em>not</em> also sent "terminal width 512" the server will show you paginated output!</li>
+<li>Re-enabling pagination/logging in/out: You cannot <em>re-enable</em> pagination on the server, the only way to do this is 
+  to exit/re-connect. This is because the collector has no way to know what commands are actually doing/what 
+  commands disable/re-enable pagination (and we would never re-enable pagination in scrapli anyway!).</li>
+</ul>
+<p>With all the caveats out of the way, let's check out a mock server:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
  3
