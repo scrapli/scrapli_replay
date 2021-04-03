@@ -1,4 +1,4 @@
-dataclasses>=0.7,<1.0 ; python_version < "3.7"
-scrapli>=2021.01.30
-ruamel.yaml==0.16.12
 asyncssh==2.5.0
+dataclasses>=0.7,<1.0 ; python_version < "3.7"
+ruamel.yaml==0.16.12
+scrapli>=2021.07.30a1

@@ -2,7 +2,7 @@
 from copy import copy
 from dataclasses import asdict, dataclass
 from io import BytesIO
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
 from ruamel.yaml import YAML  # type: ignore
 
@@ -58,7 +58,7 @@ class InteractiveEvent:
     event_steps: Optional[List[InteractStep]] = None
 
 
-class ScrapliCollectorChannel(Channel):  # type: ignore
+class ScrapliCollectorChannel(Channel):
     def __init__(self, *args: Any, **kwargs: Any) -> None:
         super().__init__(*args, **kwargs)
         self.captured_writes: List[str] = []
@@ -141,7 +141,7 @@ class ScrapliCollector:
 
             self.scrapli_connection = Scrapli(
                 channel_log=self.channel_log,
-                **kwargs,
+                **kwargs,  # type: ignore
             )
 
         self.scrapli_connection_original_timeout_transport = (
@@ -400,8 +400,11 @@ class ScrapliCollector:
 
         logger.info("collecting on open inputs")
 
+        self.scrapli_connection.channel = cast(
+            ScrapliCollectorChannel, self.scrapli_connection.channel
+        )
         starting_write_log_count = len(self.scrapli_connection.channel.captured_writes)
-        self.scrapli_connection_standard_on_open(self.scrapli_connection)
+        self.scrapli_connection_standard_on_open(self.scrapli_connection)  # type: ignore
         ending_write_log_count = len(self.scrapli_connection.channel.captured_writes)
 
         write_log_slice = ending_write_log_count - starting_write_log_count
@@ -434,8 +437,11 @@ class ScrapliCollector:
 
         logger.info("collecting on close inputs")
 
+        self.scrapli_connection.channel = cast(
+            ScrapliCollectorChannel, self.scrapli_connection.channel
+        )
         starting_write_log_count = len(self.scrapli_connection.channel.captured_writes)
-        self.scrapli_connection_standard_on_close(self.scrapli_connection)
+        self.scrapli_connection_standard_on_close(self.scrapli_connection)  # type: ignore
         ending_write_log_count = len(self.scrapli_connection.channel.captured_writes)
 
         write_log_slice = ending_write_log_count - starting_write_log_count

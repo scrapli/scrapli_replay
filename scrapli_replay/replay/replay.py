@@ -120,7 +120,7 @@ class ScrapliReplay:
         self._read_log = BytesIO()
         self._write_log: List[Tuple[str, bool, int]] = []
 
-        self._patched_open: Optional[mock._patch[Any]] = None
+        self._patched_open: Optional[mock._patch[Any]] = None  # noqa
 
         self._wrapped_connection_profile: Optional[ConnectionProfile] = None
 
@@ -333,7 +333,9 @@ class ScrapliReplay:
 
             return buf
 
-        scrapli_conn.channel.read = types.MethodType(patched_read, scrapli_conn.channel)
+        scrapli_conn.channel.read = types.MethodType(  # type: ignore
+            patched_read, scrapli_conn.channel
+        )
 
     def _patch_read_replay(self, scrapli_conn: Driver, device_outputs: Iterator[str]) -> None:
         """
@@ -389,7 +391,9 @@ class ScrapliReplay:
 
             return buf
 
-        scrapli_conn.channel.read = types.MethodType(patched_read, scrapli_conn.channel)
+        scrapli_conn.channel.read = types.MethodType(  # type: ignore
+            patched_read, scrapli_conn.channel
+        )
 
     def _patch_write_replay(
         self, scrapli_conn: Union[AsyncDriver, Driver], scrapli_inputs: Iterator[Tuple[str, bool]]
@@ -448,7 +452,9 @@ class ScrapliReplay:
             log_output = "REDACTED" if redacted else repr(channel_input)
             cls.logger.debug(f"write: {log_output}")
 
-        scrapli_conn.channel.write = types.MethodType(patched_write, scrapli_conn.channel)
+        scrapli_conn.channel.write = types.MethodType(  # type: ignore
+            patched_write, scrapli_conn.channel
+        )
 
     def _setup_async_record_mode(self, scrapli_conn: AsyncDriver) -> None:
         """
@@ -528,7 +534,9 @@ class ScrapliReplay:
 
             return buf
 
-        scrapli_conn.channel.read = types.MethodType(patched_read, scrapli_conn.channel)
+        scrapli_conn.channel.read = types.MethodType(  # type: ignore
+            patched_read, scrapli_conn.channel
+        )
 
     def _patch_read_record(self, scrapli_conn: Driver) -> None:
         """
@@ -574,7 +582,9 @@ class ScrapliReplay:
 
             return buf
 
-        scrapli_conn.channel.read = types.MethodType(patched_read, scrapli_conn.channel)
+        scrapli_conn.channel.read = types.MethodType(  # type: ignore
+            patched_read, scrapli_conn.channel
+        )
 
     def _patch_write_record(
         self,
@@ -622,7 +632,9 @@ class ScrapliReplay:
 
             cls.transport.write(channel_input=channel_input.encode())
 
-        scrapli_conn.channel.write = types.MethodType(patched_write, scrapli_conn.channel)
+        scrapli_conn.channel.write = types.MethodType(  # type: ignore
+            patched_write, scrapli_conn.channel
+        )
 
     def _telnet_patch_update_log(self, auth_username: str) -> None:
         """
@@ -809,7 +821,7 @@ class ScrapliReplay:
             """
             self._record_connection_profile(scrapli_conn=cls)
             if self.replay_mode == ReplayMode.REPLAY:
-                self._setup_async_replay_mode(scrapli_conn=cls)
+                self._setup_async_replay_mode(scrapli_conn=cls)  # type: ignore
             else:
                 if self._block_network is True:
                     # if block network is true and we got here then there is no session recorded, so
@@ -821,7 +833,7 @@ class ScrapliReplay:
 
                 # if we are not in replay mode, we are in record or overwrite (same/same) so setup
                 # the record read/write channel methods and then do "normal" stuff
-                self._setup_async_record_mode(scrapli_conn=cls)
+                self._setup_async_record_mode(scrapli_conn=cls)  # type: ignore
                 await cls.transport.open()
 
             cls._pre_open_closing_log(closing=False)  # pylint: disable=W0212
