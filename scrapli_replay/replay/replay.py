@@ -66,12 +66,14 @@ class ScrapliReplayInstance:
 
         Args:
             replay_mode: replay mode to use
+            connection_profile: connection profile object
+            replay_session: dict of replay session (used in replay mode, ignored in record mode)
 
         Returns:
             None
 
         Raises:
-            ScrapliReplayException: if invalid replay mode provided
+            N/A
 
         """
         self.replay_mode = replay_mode
@@ -913,7 +915,7 @@ class ScrapliReplay:
             scrapli_conn: scrapli connection to fetch data from
 
         Returns:
-            ConnectionProfile: recorded connection profile
+            str: instance name to use for the connection
 
         Raises:
             N/A
