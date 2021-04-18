@@ -21,9 +21,6 @@ cov:
 
 test_unit:
 	python -m pytest \
-	--cov=scrapli_replay \
-	--cov-report html \
-	--cov-report term \
 	tests/unit/
 
 cov_unit:
