@@ -1,6 +1,6 @@
 ---
 site_name: Scrapli Replay
-site_description: "Scrapli Replay: Tools to enable easy testing of scrapli programs"
+site_description: Tools to enable easy testing of scrapli programs
 site_author: Carl Montanari
 
 repo_name: scrapli/scrapli_replay
@@ -26,10 +26,10 @@ nav:
   - Changelog: changelog.md
   - More Scrapli:
     - Scrapli: more_scrapli/scrapli.md
-    - Nornir Scrapli: more_scrapli/nornir_scrapli.md
-    - Scrapli Community: more_scrapli/scrapli_community.md
     - Scrapli Netconf: more_scrapli/scrapli_netconf.md
-    - Scrapli Stubs: more_scrapli/scrapli_stubs.md
+    - Scrapli Community: more_scrapli/scrapli_community.md
+    - Scrapli Cfg: more_scrapli/scrapli_cfg.md
+    - Nornir Scrapli: more_scrapli/nornir_scrapli.md
   - Other:
     - Contributing: about/contributing.md
     - Code of Conduct: about/code_of_conduct.md
@@ -51,7 +51,7 @@ markdown_extensions:
 extra:
     social:
         - icon: fontawesome/brands/github-alt
-          link: 'https://github.com/carlmontanari/scrapli'
+          link: 'https://github.com/carlmontanari/'
         - icon: fontawesome/brands/twitter
           link: 'https://twitter.com/carlrmontanari'
         - icon: fontawesome/brands/linkedin
