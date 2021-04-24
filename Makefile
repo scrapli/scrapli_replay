@@ -30,5 +30,10 @@ cov_unit:
 	--cov-report term \
 	tests/unit/
 
+test_docs:
+	mkdocs build --clean --strict
+	htmltest -c docs/htmltest.yml -s
+	rm -rf tmp
+
 deploy_docs:
 	mkdocs gh-deploy
