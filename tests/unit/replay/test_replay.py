@@ -1,3 +1,4 @@
+import sys
 from io import BytesIO
 from pathlib import Path
 
@@ -24,6 +25,7 @@ def test_scrapli_replay_basic():
     assert replay._patched_open is None
 
 
+@pytest.mark.skipif(sys.version_info > (3, 9), reason="skipping pending pyfakefs 3.10 support")
 def test_scrapli_replay_existing_session(fs):
     fs.create_file(
         f"{Path.cwd()}/test1.yaml",
@@ -45,6 +47,7 @@ def test_scrapli_replay_invalid_replay_mode():
         ScrapliReplay(session_name="test1", replay_mode="blah")
 
 
+@pytest.mark.skipif(sys.version_info > (3, 9), reason="skipping pending pyfakefs 3.10 support")
 def test_session_exists(fs):
     fs.create_file(
         f"{Path.cwd()}/test1.yaml",
@@ -336,6 +339,7 @@ def test_serialize():
     }
 
 
+@pytest.mark.skipif(sys.version_info > (3, 9), reason="skipping pending pyfakefs 3.10 support")
 def test_save(fs):
     connection_profile = {
         "host": "c3560",

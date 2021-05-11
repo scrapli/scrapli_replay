@@ -1,11 +1,9 @@
+import sys
+
 import _pytest
 import pytest
 
-from scrapli_replay.replay.pytest_scrapli_replay import (
-    _finalize_fixture_args,
-    _scrapli_replay_marker,
-    pytest_addoption,
-)
+from scrapli_replay.replay.pytest_scrapli_replay import _finalize_fixture_args, pytest_addoption
 
 Parser = _pytest.config.argparsing.Parser
 
@@ -41,6 +39,7 @@ def test_scrapli_replay_options():
     assert parsed_options.scrapli_replay_block_network is True
 
 
+@pytest.mark.skipif(sys.version_info > (3, 9), reason="skipping pending pyfakefs 3.10 support")
 def test_finalize_fixture_args(fs):
     # building some dummy objects to not bother with creating "real" pytest objects -- mostly i care
     # about testing that the options get parsed and returned correctly and will assume pytest is
