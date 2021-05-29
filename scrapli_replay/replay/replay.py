@@ -13,7 +13,7 @@ from typing import Any, Callable, Dict, Iterator, List, Optional, Tuple, Type, U
 from unittest import mock
 
 import pytest
-from ruamel.yaml import YAML, safe_load  # type: ignore
+import ruamel.yaml
 
 import scrapli
 from scrapli.channel.async_channel import AsyncChannel
@@ -27,6 +27,8 @@ from scrapli_replay.exceptions import (
     ScrapliReplayException,
     ScrapliReplayExpectedInputError,
 )
+
+YAML = ruamel.yaml.YAML(typ="safe", pure=True)  # type: ignore
 
 # used to replace scrapli cfg session name/id in channel write log
 SCRAPLI_CFG_SESSION_PATTERN = re.compile(pattern=r"scrapli_cfg_\d+")
@@ -615,7 +617,7 @@ class ScrapliReplay:
         self.replay_session: Dict[str, Any] = {}
         if self.replay_mode == ReplayMode.REPLAY:
             with open(f"{self.session_directory}/{self.session_name}.yaml", "r") as f:
-                self.replay_session = safe_load(f)
+                self.replay_session = YAML.load(f)
             # if we open a session and there are no interactions recorded for any of the hosts then
             # something is not right -- we will need to re-record a session
             if not all(
