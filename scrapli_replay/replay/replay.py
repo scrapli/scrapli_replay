@@ -1079,6 +1079,5 @@ class ScrapliReplay:
 
         """
         with open(f"{self.session_directory}/{self.session_name}.yaml", "w") as f:
-            yaml = YAML()
-            yaml.indent(mapping=2, sequence=4, offset=2)
-            yaml.dump(self._serialize(), f)
+            YAML.indent(mapping=2, sequence=4, offset=2)
+            YAML.dump(self._serialize(), f)
