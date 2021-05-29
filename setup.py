@@ -4,7 +4,7 @@ from pathlib import Path
 
 import setuptools
 
-__version__ = "2021.07.30a4"
+__version__ = "2021.07.30a5"
 __author__ = "Carl Montanari"
 
 with open("README.md", "r", encoding="utf-8") as f:
@@ -52,14 +52,15 @@ setuptools.setup(
     classifiers=[
         "Framework :: Pytest",
         "License :: OSI Approved :: MIT License",
-        "Operating System :: MacOS",
         "Operating System :: POSIX :: Linux",
+        "Operating System :: MacOS",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3 :: Only",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
+        "Programming Language :: Python :: 3 :: Only",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
     python_requires=">=3.6",

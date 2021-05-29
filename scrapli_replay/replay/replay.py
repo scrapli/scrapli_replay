@@ -209,7 +209,7 @@ class ScrapliReplayInstance:
             if cls.channel_log:
                 cls.channel_log.write(buf)
 
-            if cls._base_channel_args.comms_ansi:  # pylint: disable=W0212
+            if b"\x1b" in buf.lower():
                 buf = cls._strip_ansi(buf=buf)  # pylint: disable=W0212
 
             return buf
@@ -267,7 +267,7 @@ class ScrapliReplayInstance:
             if cls.channel_log:
                 cls.channel_log.write(buf)
 
-            if cls._base_channel_args.comms_ansi:  # pylint: disable=W0212
+            if b"\x1b" in buf.lower():
                 buf = cls._strip_ansi(buf=buf)  # pylint: disable=W0212
 
             return buf
@@ -403,15 +403,15 @@ class ScrapliReplayInstance:
             buf: bytes = await cls.transport.read()
             buf = buf.replace(b"\r", b"")
 
-            self.read_log.write(buf)
-
             cls.logger.debug(f"read: {repr(buf)}")
 
             if cls.channel_log:
                 cls.channel_log.write(buf)
 
-            if cls._base_channel_args.comms_ansi:  # pylint: disable=W0212
+            if b"\x1b" in buf.lower():
                 buf = cls._strip_ansi(buf=buf)  # pylint: disable=W0212
+
+            self.read_log.write(buf)
 
             return buf
 
@@ -451,15 +451,15 @@ class ScrapliReplayInstance:
             buf: bytes = cls.transport.read()
             buf = buf.replace(b"\r", b"")
 
-            self.read_log.write(buf)
-
             cls.logger.debug(f"read: {repr(buf)}")
 
             if cls.channel_log:
                 cls.channel_log.write(buf)
 
-            if cls._base_channel_args.comms_ansi:  # pylint: disable=W0212
+            if b"\x1b" in buf.lower():
                 buf = cls._strip_ansi(buf=buf)  # pylint: disable=W0212
+
+            self.read_log.write(buf)
 
             return buf
 
