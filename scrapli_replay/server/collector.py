@@ -17,6 +17,8 @@ from scrapli_replay.logging import logger
 
 # pylint: disable=W0212
 
+READ_DURATION = 180
+
 
 @dataclass()
 class StandardEvent:
@@ -361,6 +363,35 @@ class ScrapliCollector:
         )
 
     @staticmethod
+    def _strip_remaining_ansi(raw_output: bytes) -> str:
+        """
+        Strip remaining ansi chars and decode bytes to string
+
+        Unclear why as it seems like `_strip_ansi` in scrapli core channel should handle this, but
+        some ansi characters do *not* get stripped out, handle them here. Note that this seems to
+        be an EOS specific thing as the other "core" platforms dont plop ansi into the output.
+
+        Args:
+            raw_output: channel output to remove remaining ansi chars from
+
+        Returns:
+            : channel output w/ leading newline removed
+
+        Raises:
+            N/A
+
+        """
+        if b"\x1b" in raw_output:
+            # genuinely dont know what the `>` one is... in theory the `=` one is some screen set
+            # argument?
+            raw_output = raw_output.replace(b"\x1b=", b"")
+            raw_output = raw_output.replace(b"\x1b>", b"")
+
+        channel_output = raw_output.decode()
+
+        return channel_output
+
+    @staticmethod
     def _strip_leading_newline(channel_output: str) -> str:
         """
         Remove a single leading newline if present
@@ -376,8 +407,8 @@ class ScrapliCollector:
 
         """
         if channel_output.startswith("\n"):
-            final_channel_output = channel_output[1:]
-            return final_channel_output
+            channel_output = channel_output[1:]
+
         return channel_output
 
     def _collect_on_open_inputs(self) -> None:
@@ -491,7 +522,7 @@ class ScrapliCollector:
                     channel_input=channel_input,
                     expected_outputs=self.all_expected_patterns,
                     # especially nxos in vrouter is v v v slow....
-                    read_duration=60,
+                    read_duration=READ_DURATION,
                 )
             except ScrapliConnectionError:
                 logger.debug("connection closed connection, documenting and re-opening")
@@ -509,7 +540,7 @@ class ScrapliCollector:
                 self.open()
             else:
                 closes_connection = False
-                channel_output = raw_output.decode()
+                channel_output = self._strip_remaining_ansi(raw_output=raw_output)
                 returns_prompt = True
                 if self.paging_indicator.encode() in raw_output:
                     logger.debug("encountered paging indicator, sending escape string")
@@ -559,7 +590,7 @@ class ScrapliCollector:
         raw_output: bytes = self.scrapli_connection.channel._read_until_prompt_or_time(
             channel_outputs=bytes_channel_outputs,
             # especially nxos in vrouter is v v v slow....
-            read_duration=60,
+            read_duration=READ_DURATION,
         )
         return raw_output
 
@@ -587,7 +618,7 @@ class ScrapliCollector:
             channel_input=channel_input,
             expected_outputs=all_patterns_and_expected_interact_prompt,
             # especially nxos in vrouter is v v v slow....
-            read_duration=60,
+            read_duration=READ_DURATION,
         )
 
         if channel_input == "":
@@ -742,7 +773,7 @@ class ScrapliCollector:
                 self.open()
             else:
                 closes_connection = False
-                channel_output = raw_output.decode()
+                channel_output = self._strip_remaining_ansi(raw_output=raw_output)
                 returns_prompt = True
                 if self.paging_indicator.encode() in raw_output:
                     self.scrapli_connection.channel.write(channel_input=self.paging_escape_string)

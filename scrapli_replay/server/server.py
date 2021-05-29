@@ -4,7 +4,7 @@ from enum import Enum
 from typing import Any, Dict, Optional, Type
 
 import asyncssh
-from ruamel.yaml import safe_load  # type: ignore
+import ruamel.yaml
 
 from scrapli_replay.exceptions import ScrapliReplayServerError
 from scrapli_replay.logging import logger
@@ -26,6 +26,8 @@ QQDZ86OGU3St5fz9INTz+x6wcsVVDXTywDjlU8UDrpZN9Y8WBiTSG1aNRm7IZXxOcmEJ7L
 CwttJsdhYnN0En/zgzAAAAFGNhcmxAaW1wb3N0b3JlLmxvY2FsAQIDBAUG
 -----END OPENSSH PRIVATE KEY-----
 """
+
+YAML = ruamel.yaml.YAML(typ="safe", pure=True)  # type: ignore
 
 
 class OnOpenState(str, Enum):
@@ -369,7 +371,7 @@ class BaseServer(asyncssh.SSHServer):  # type: ignore
         self.session = session
 
         with open(collect_data, "r") as f:
-            self.collect_data = safe_load(f)
+            self.collect_data = YAML.load(f)
 
     def session_requested(self) -> asyncssh.SSHServerSession:
         """

@@ -411,7 +411,7 @@ The session data will be dumped to a yaml file called "scrapli_replay_collector_
 "server" to create a semi-interactive ssh server!
 
 *Note* -- unless you have real dns server(s) setup, and you can resolve things, you should disable domain-lookup -- 
-if you don't the timeouts may (will!?) get exceeded and it will cuase collection to fail in confusing ways.
+if you don't the timeouts may (will!?) get exceeded and it will cause collection to fail in confusing ways.
 
 
 ### Server
