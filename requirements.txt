@@ -1,4 +1,4 @@
 asyncssh==2.6.0
 dataclasses>=0.7,<1.0 ; python_version < "3.7"
-ruamel.yaml==0.17.4
+ruamel.yaml==0.17.5
 scrapli>=2021.07.30a3
