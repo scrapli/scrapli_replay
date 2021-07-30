@@ -2,6 +2,7 @@
 site_name: Scrapli Replay
 site_description: Tools to enable easy testing of scrapli programs
 site_author: Carl Montanari
+site_url: https://scrapli.github.io/
 
 repo_name: scrapli/scrapli_replay
 repo_url: https://github.com/scrapli/scrapli_replay
