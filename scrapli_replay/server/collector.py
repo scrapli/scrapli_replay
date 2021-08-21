@@ -946,7 +946,7 @@ class ScrapliCollector:
         dumpable_dict["privilege_level_prompts"] = self.privilege_level_prompts
         dumpable_dict["on_open_inputs"] = self.on_open_inputs
 
-        with open(self.collector_session_filename, "w") as f:
+        with open(self.collector_session_filename, "w", encoding="utf-8") as f:
             yaml = YAML()
             yaml.indent(mapping=2, sequence=4, offset=2)
             yaml.dump(dumpable_dict, f)

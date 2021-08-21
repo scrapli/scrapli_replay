@@ -370,7 +370,7 @@ class BaseServer(asyncssh.SSHServer):  # type: ignore
     def __init__(self, session: Type[asyncssh.SSHServerSession], collect_data: str):
         self.session = session
 
-        with open(collect_data, "r") as f:
+        with open(collect_data, "r", encoding="utf-8") as f:
             self.collect_data = YAML.load(f)
 
     def session_requested(self) -> asyncssh.SSHServerSession:

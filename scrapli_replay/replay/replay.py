@@ -616,7 +616,9 @@ class ScrapliReplay:
 
         self.replay_session: Dict[str, Any] = {}
         if self.replay_mode == ReplayMode.REPLAY:
-            with open(f"{self.session_directory}/{self.session_name}.yaml", "r") as f:
+            with open(
+                f"{self.session_directory}/{self.session_name}.yaml", "r", encoding="utf-8"
+            ) as f:
                 self.replay_session = YAML.load(f)
             # if we open a session and there are no interactions recorded for any of the hosts then
             # something is not right -- we will need to re-record a session
@@ -1078,6 +1080,6 @@ class ScrapliReplay:
             N/A
 
         """
-        with open(f"{self.session_directory}/{self.session_name}.yaml", "w") as f:
+        with open(f"{self.session_directory}/{self.session_name}.yaml", "w", encoding="utf-8") as f:
             YAML.indent(mapping=2, sequence=4, offset=2)
             YAML.dump(self._serialize(), f)
