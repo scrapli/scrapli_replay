@@ -783,7 +783,7 @@ class ScrapliReplay:
 
         self._patched_open.stop()
 
-        if self.replay_mode == ReplayMode.RECORD or self.replay_mode == ReplayMode.OVERWRITE:
+        if self.replay_mode in (ReplayMode.RECORD, ReplayMode.OVERWRITE):
             self._save()
 
     async def __aenter__(self) -> None:
@@ -899,7 +899,7 @@ class ScrapliReplay:
 
         self._patched_open.stop()
 
-        if self.replay_mode == ReplayMode.RECORD or self.replay_mode == ReplayMode.OVERWRITE:
+        if self.replay_mode in (ReplayMode.RECORD, ReplayMode.OVERWRITE):
             self._save()
 
     def create_instance_name(self, scrapli_conn: Union[AsyncDriver, Driver]) -> str:
