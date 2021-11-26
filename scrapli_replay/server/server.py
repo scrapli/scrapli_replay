@@ -368,6 +368,19 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
 
 class BaseServer(asyncssh.SSHServer):  # type: ignore
     def __init__(self, session: Type[asyncssh.SSHServerSession], collect_data: str):
+        """
+        Base Server class
+
+        Args:
+            session: asyncssh server session
+
+        Returns:
+            None
+
+        Raises:
+            N/A
+
+        """
         self.session = session
 
         with open(collect_data, "r", encoding="utf-8") as f:
