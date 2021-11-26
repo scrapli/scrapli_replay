@@ -373,6 +373,7 @@ class BaseServer(asyncssh.SSHServer):  # type: ignore
 
         Args:
             session: asyncssh server session
+            collect_data: yaml of session to load
 
         Returns:
             None
