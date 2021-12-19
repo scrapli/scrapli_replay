@@ -928,7 +928,7 @@ class ScrapliReplay:
         instance_name = (
             f"{scrapli_conn.host}:{scrapli_conn.port}:"
             f"{scrapli_conn.transport.__class__.__name__}:"
-            f"{scrapli_conn.logger.extra.get('uid', '')}"
+            f"{scrapli_conn.logger.extra.get('uid', '')}"  # type:ignore
         )
         similar_instance_names = [
             inst_name for inst_name in self.wrapped_instances if inst_name.startswith(instance_name)
