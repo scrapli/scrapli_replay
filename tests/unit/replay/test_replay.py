@@ -138,7 +138,6 @@ def test_common_replay_mode_exception():
         replay._common_replay_mode()
 
 
-@pytest.mark.asyncio
 async def test_setup_async_replay_mode(monkeypatch, scrapli_conn):
     device_outputs = iter(["", "C3560CX#"])
     scrapli_inputs = iter([("\n", False), ("terminal length 0", False)])

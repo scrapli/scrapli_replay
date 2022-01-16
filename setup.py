@@ -55,7 +55,6 @@ setuptools.setup(
         "Operating System :: POSIX :: Linux",
         "Operating System :: MacOS",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -63,7 +62,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3 :: Only",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     entry_points={"pytest11": ["scrapli_replay = scrapli_replay.replay.pytest_scrapli_replay"]},
     # zip_safe False for mypy
     # https://mypy.readthedocs.io/en/stable/installed_packages.html
