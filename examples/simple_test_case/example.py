@@ -6,6 +6,19 @@ from scrapli import Scrapli
 
 class Example:
     def __init__(self):
+        """
+        Example class
+
+        Args:
+            N/A
+
+        Returns:
+            None
+
+        Raises:
+            N/A
+
+        """
         self.conn = Scrapli(
             host="c3560", platform="cisco_iosxe", ssh_config_file=True, auth_strict_key=False
         )

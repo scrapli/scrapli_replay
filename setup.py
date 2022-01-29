@@ -4,19 +4,19 @@ from pathlib import Path
 
 import setuptools
 
-__version__ = "2021.07.30"
+__version__ = "2022.01.30"
 __author__ = "Carl Montanari"
 
 with open("README.md", "r", encoding="utf-8") as f:
     README = f.read()
 
-with open("requirements.txt", "r") as f:
+with open("requirements.txt", "r", encoding="utf-8") as f:
     INSTALL_REQUIRES = f.read().splitlines()
 
 EXTRAS_REQUIRE = {}
 
 for extra in EXTRAS_REQUIRE:
-    with open(f"requirements-{extra}.txt", "r") as f:
+    with open(f"requirements-{extra}.txt", "r", encoding="utf-8") as f:
         EXTRAS_REQUIRE[extra] = f.read().splitlines()
 
 full_requirements = [requirement for extra in EXTRAS_REQUIRE.values() for requirement in extra]
@@ -55,7 +55,6 @@ setuptools.setup(
         "Operating System :: POSIX :: Linux",
         "Operating System :: MacOS",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
@@ -63,7 +62,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3 :: Only",
         "Topic :: Software Development :: Libraries :: Python Modules",
     ],
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     entry_points={"pytest11": ["scrapli_replay = scrapli_replay.replay.pytest_scrapli_replay"]},
     # zip_safe False for mypy
     # https://mypy.readthedocs.io/en/stable/installed_packages.html

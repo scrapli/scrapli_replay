@@ -616,7 +616,9 @@ class ScrapliReplay:
 
         self.replay_session: Dict[str, Any] = {}
         if self.replay_mode == ReplayMode.REPLAY:
-            with open(f"{self.session_directory}/{self.session_name}.yaml", "r") as f:
+            with open(
+                f"{self.session_directory}/{self.session_name}.yaml", "r", encoding="utf-8"
+            ) as f:
                 self.replay_session = YAML.load(f)
             # if we open a session and there are no interactions recorded for any of the hosts then
             # something is not right -- we will need to re-record a session
@@ -781,7 +783,7 @@ class ScrapliReplay:
 
         self._patched_open.stop()
 
-        if self.replay_mode == ReplayMode.RECORD or self.replay_mode == ReplayMode.OVERWRITE:
+        if self.replay_mode in (ReplayMode.RECORD, ReplayMode.OVERWRITE):
             self._save()
 
     async def __aenter__(self) -> None:
@@ -897,7 +899,7 @@ class ScrapliReplay:
 
         self._patched_open.stop()
 
-        if self.replay_mode == ReplayMode.RECORD or self.replay_mode == ReplayMode.OVERWRITE:
+        if self.replay_mode in (ReplayMode.RECORD, ReplayMode.OVERWRITE):
             self._save()
 
     def create_instance_name(self, scrapli_conn: Union[AsyncDriver, Driver]) -> str:
@@ -926,7 +928,7 @@ class ScrapliReplay:
         instance_name = (
             f"{scrapli_conn.host}:{scrapli_conn.port}:"
             f"{scrapli_conn.transport.__class__.__name__}:"
-            f"{scrapli_conn.logger.extra.get('uid', '')}"
+            f"{scrapli_conn.logger.extra.get('uid', '')}"  # type:ignore
         )
         similar_instance_names = [
             inst_name for inst_name in self.wrapped_instances if inst_name.startswith(instance_name)
@@ -1078,6 +1080,6 @@ class ScrapliReplay:
             N/A
 
         """
-        with open(f"{self.session_directory}/{self.session_name}.yaml", "w") as f:
+        with open(f"{self.session_directory}/{self.session_name}.yaml", "w", encoding="utf-8") as f:
             YAML.indent(mapping=2, sequence=4, offset=2)
             YAML.dump(self._serialize(), f)
