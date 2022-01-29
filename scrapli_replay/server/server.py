@@ -3,8 +3,12 @@ import asyncio
 from enum import Enum
 from typing import Any, Dict, Optional, Type
 
-import asyncssh
 import ruamel.yaml
+from asyncssh.channel import SSHServerChannel
+from asyncssh.connection import create_server
+from asyncssh.public_key import SSHKey
+from asyncssh.server import SSHServer
+from asyncssh.session import SSHServerSession
 
 from scrapli_replay.exceptions import ScrapliReplayServerError
 from scrapli_replay.logging import logger
@@ -35,7 +39,7 @@ class OnOpenState(str, Enum):
     POST = "post_on_open"
 
 
-class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
+class BaseSSHServerSession(SSHServerSession):  # type: ignore
     def __init__(self, collect_data: Dict[str, Any]) -> None:
         """
         SSH Server Session class
@@ -54,7 +58,7 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
         """
         logger.debug("ssh session initiated")
 
-        self._chan: asyncssh.editor.SSHLineEditorChannel
+        self._chan: SSHServerChannel[Any]
 
         self._hide_input = False
         self._interacting = False
@@ -67,7 +71,7 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
         self._on_open_commands_list = self.collect_data["on_open_inputs"].copy()
         self.current_privilege_level = self.collect_data["initial_privilege_level"]
 
-    def connection_made(self, chan: asyncssh.editor.SSHLineEditorChannel) -> None:
+    def connection_made(self, chan: SSHServerChannel[Any]) -> None:
         """
         SSH Connection made!
 
@@ -176,7 +180,7 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
         if self._hide_input:
             # un hide input!
             logger.debug("re-enabling channel echo")
-            self._chan.set_echo(echo=True)
+            self._chan.set_echo(echo=True)  # type: ignore
             self._hide_input = False
 
         event_step = self._interacting_event["event_steps"][self._interact_index]
@@ -213,7 +217,7 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
         if self._interacting_event["event_steps"][self._interact_index]["hidden_input"]:
             # next event is "hidden"... so... hide it...
             logger.debug("next interact event has hidden input, disabling channel echo")
-            self._chan.set_echo(echo=False)
+            self._chan.set_echo(echo=False)  # type: ignore
             self._hide_input = True
 
     def standard_event(self, channel_input: str, event: Dict[str, Any]) -> None:
@@ -281,7 +285,7 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
             self.eof_received()
         self.current_privilege_level = event["result_privilege_level"]
 
-    def data_received(self, data: str, datatype: None) -> None:
+    def data_received(self, data: str, datatype: Optional[int]) -> None:
         """
         Handle data received on ssh channel
 
@@ -333,7 +337,7 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
         logger.debug("unknown channel event")
         self.unknown_event()
 
-    def eof_received(self) -> None:
+    def eof_received(self) -> bool:
         """
         Handle eof
 
@@ -348,8 +352,9 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
 
         """
         self._chan.exit(0)
+        return True
 
-    def break_received(self, msec: float) -> None:
+    def break_received(self, msec: float) -> bool:
         """
         Handle break
 
@@ -364,10 +369,11 @@ class BaseSSHServerSession(asyncssh.SSHServerSession):  # type: ignore
 
         """
         self.eof_received()
+        return True
 
 
-class BaseServer(asyncssh.SSHServer):  # type: ignore
-    def __init__(self, session: Type[asyncssh.SSHServerSession], collect_data: str):
+class BaseServer(SSHServer):
+    def __init__(self, session: Type[SSHServerSession], collect_data: str):  # type: ignore
         """
         Base Server class
 
@@ -387,7 +393,7 @@ class BaseServer(asyncssh.SSHServer):  # type: ignore
         with open(collect_data, "r", encoding="utf-8") as f:
             self.collect_data = YAML.load(f)
 
-    def session_requested(self) -> asyncssh.SSHServerSession:
+    def session_requested(self) -> SSHServerSession:  # type: ignore
         """
         Session requested; return ServerSession object
 
@@ -398,13 +404,13 @@ class BaseServer(asyncssh.SSHServer):  # type: ignore
             N/A
 
         Returns:
-            asyncssh.SSHServerSession: SSHServerSession
+            SSHServerSession: SSHServerSession
 
         Raises:
             N/A
 
         """
-        return self.session(collect_data=self.collect_data)
+        return self.session(collect_data=self.collect_data)  # type: ignore
 
     def begin_auth(self, username: str) -> bool:
         """
@@ -473,9 +479,7 @@ class BaseServer(asyncssh.SSHServer):  # type: ignore
             return True
         return False
 
-    def validate_public_key(
-        self, username: str, key: asyncssh.rsa._RSAKey  # pylint: disable=W0212
-    ) -> bool:
+    def validate_public_key(self, username: str, key: SSHKey) -> bool:
         """
         Validate provided public key
 
@@ -514,11 +518,11 @@ async def start(port: int = 2222, collect_data: str = "scrapli_replay.yaml") -> 
 
     """
 
-    def server_factory() -> asyncssh.SSHServer:
+    def server_factory() -> SSHServer:
         server = BaseServer(session=BaseSSHServerSession, collect_data=collect_data)
         return server
 
-    await asyncssh.create_server(
+    await create_server(
         server_factory,
         "localhost",
         port,
