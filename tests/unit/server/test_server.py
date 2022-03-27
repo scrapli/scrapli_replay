@@ -19,7 +19,7 @@ def test_base_server_session(basic_server):
 
 
 def test_connection_made(basic_server):
-    chan = SSHLineEditorChannel("", "", "", "")
+    chan = SSHLineEditorChannel(orig_chan="", orig_session="", line_echo="", history_size="", max_line_length="")
     basic_server.connection_made(chan)
     assert basic_server._chan is chan
 
@@ -52,7 +52,7 @@ def test_interactive_event_no_interactive_event(basic_server):
 
 
 def test_interactive_event(monkeypatch, basic_server):
-    basic_server._chan = SSHLineEditorChannel("", "", "", "")
+    basic_server._chan = SSHLineEditorChannel(orig_chan="", orig_session="", line_echo="", history_size="", max_line_length="")
     basic_server._chan.set_echo = lambda echo: None
     chan = StringIO()
 
