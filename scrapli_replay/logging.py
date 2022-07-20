@@ -42,7 +42,7 @@ class ScrapliReplayFormatter(Formatter):
             args=(),
             exc_info=None,
         )
-        self.header_record.message_id = 0  # type: ignore
+        self.header_record.message_id = 0
         self.header_record.asctime = "TIMESTAMP".ljust(23, " ")
         self.header_record.levelname = "LEVEL"
         self.header_record.module = "MODULE"
@@ -64,7 +64,7 @@ class ScrapliReplayFormatter(Formatter):
             N/A
 
         """
-        record.message_id = self.message_id  # type: ignore
+        record.message_id = self.message_id
 
         if self.caller_info:
             record.module = (
@@ -78,7 +78,7 @@ class ScrapliReplayFormatter(Formatter):
 
         if self.message_id == 1 and self.log_header:
             # ignoring type for these fields so we can put "pretty" data into the log "header" row
-            self.header_record.message_id = "ID"  # type: ignore
+            self.header_record.message_id = "ID"
             self.header_record.lineno = "LINE"  # type: ignore
             header_message = self._style.format(self.header_record)
             message = header_message + "\n" + message
