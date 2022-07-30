@@ -28,7 +28,7 @@ from scrapli_replay.exceptions import (
     ScrapliReplayExpectedInputError,
 )
 
-YAML = ruamel.yaml.YAML(typ="safe", pure=True)  # type: ignore
+YAML = ruamel.yaml.YAML(typ="safe", pure=True)
 
 # used to replace scrapli cfg session name/id in channel write log
 SCRAPLI_CFG_SESSION_PATTERN = re.compile(pattern=r"scrapli_cfg_\d+")

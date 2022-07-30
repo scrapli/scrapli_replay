@@ -31,7 +31,7 @@ CwttJsdhYnN0En/zgzAAAAFGNhcmxAaW1wb3N0b3JlLmxvY2FsAQIDBAUG
 -----END OPENSSH PRIVATE KEY-----
 """
 
-YAML = ruamel.yaml.YAML(typ="safe", pure=True)  # type: ignore
+YAML = ruamel.yaml.YAML(typ="safe", pure=True)
 
 
 class OnOpenState(str, Enum):

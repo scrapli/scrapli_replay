@@ -4,7 +4,7 @@ from dataclasses import asdict, dataclass
 from io import BytesIO
 from typing import Any, Dict, List, Optional, Tuple, Union, cast
 
-from ruamel.yaml import YAML  # type: ignore
+from ruamel.yaml import YAML
 
 from scrapli import Scrapli
 from scrapli.channel.sync_channel import Channel
