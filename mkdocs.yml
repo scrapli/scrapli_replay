@@ -62,3 +62,17 @@ extra:
 
 plugins:
     - search
+    - gen-files:
+        scripts:
+        - docs/generate.py
+    - mkdocstrings:
+        handlers:
+          python:
+            paths: [ scrapli_replay ]
+            options:
+              show_signature_annotations: true
+        watch:
+        - scrapli_replay
+    - section-index
+    - literate-nav:
+        nav_file: SUMMARY.md

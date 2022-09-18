@@ -1,13 +1,85 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "scrapli_replay"
+dynamic = [
+    "version",
+    "dependencies",
+    "optional-dependencies",
+]
+description = "Tools to enable easy testing of scrapli programs"
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.7"
+authors = [
+    { name = "Carl Montanari", email = "carl.r.montanari@gmail.com" },
+]
+classifiers = [
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3 :: Only",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+keywords = [
+    "ssh",
+    "telnet",
+    "netconf",
+    "automation",
+    "network",
+    "cisco",
+    "iosxr",
+    "iosxe",
+    "nxos",
+    "arista",
+    "eos",
+    "juniper",
+    "junos",
+]
+
+[project.urls]
+Homepage = "https://github.com/scrapli/scrapli_replay"
+Changelog = "https://scrapli.github.io/scrapli_replay/changelog/"
+Docs = "https://scrapli.github.io/scrapli_replay/"
+
+[tool.setuptools]
+packages = [
+    "scrapli_replay"
+]
+
+[tool.setuptools.dynamic]
+version = { attr = "scrapli_replay.__version__" }
+dependencies = { file = "requirements.txt" }
+optional-dependencies.dev = { file = [
+    "requirements-dev.txt",
+] }
+optional-dependencies.docs = { file = "requirements-docs.txt" }
+
+[tool.setuptools.package-data]
+scrapli_replay = [
+    "py.typed"
+]
+
 [tool.coverage.run]
-source = ["scrapli_replay/"]
+source = [
+    "scrapli_replay/"
+]
 
 [tool.coverage.report]
 sort = "cover"
 
 [tool.black]
 line-length = 100
-target-version = ["py311"]
-
+target-version = [
+    "py311",
+]
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 
