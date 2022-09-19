@@ -49,6 +49,9 @@ Homepage = "https://github.com/scrapli/scrapli_replay"
 Changelog = "https://scrapli.github.io/scrapli_replay/changelog/"
 Docs = "https://scrapli.github.io/scrapli_replay/"
 
+[project.entry-points."pytest11"]
+scrapli_replay = "scrapli_replay.replay.pytest_scrapli_replay"
+
 [tool.setuptools]
 packages = [
     "scrapli_replay"
