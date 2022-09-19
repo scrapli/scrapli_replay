@@ -53,7 +53,7 @@ class ScrapliReplayFormatter(Formatter_):
         self.header_record.lineno = 0
         self.header_record.message = "MESSAGE"
 
-    def formatMessage(self, record: LogRecord) -> str:
+    def formatMessage(self, record: LogRecord_) -> str:
         """
         Override standard library logging Formatter.formatMessage
 
