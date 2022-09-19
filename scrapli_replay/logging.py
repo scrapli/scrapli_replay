@@ -1,8 +1,11 @@
 """scrapli_replay.logging"""
-from logging import Formatter, LogRecord, NullHandler, getLogger
+# slightly irritating renaming to prevent a cyclic lookup in griffe for mkdocstrings
+from logging import Formatter as Formatter_
+from logging import LogRecord as LogRecord_
+from logging import NullHandler, getLogger
 
 
-class ScrapliReplayFormatter(Formatter):
+class ScrapliReplayFormatter(Formatter_):
     def __init__(self, log_header: bool = True, caller_info: bool = False) -> None:
         """
         Scrapli Replay Formatter
@@ -33,7 +36,7 @@ class ScrapliReplayFormatter(Formatter):
         self.caller_info = caller_info
         self.message_id = 1
 
-        self.header_record = LogRecord(
+        self.header_record = LogRecord_(
             name="header",
             level=0,
             pathname="",
