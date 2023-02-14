@@ -53,13 +53,6 @@ Docs = "https://scrapli.github.io/scrapli_replay/"
 [project.entry-points."pytest11"]
 scrapli_replay = "scrapli_replay.replay.pytest_scrapli_replay"
 
-[tool.setuptools]
-packages = [
-    "scrapli_replay",
-    "scrapli_replay.replay",
-    "scrapli_replay.server",
-]
-
 [tool.setuptools.dynamic]
 version = { attr = "scrapli_replay.__version__" }
 dependencies = { file = "requirements.txt" }
