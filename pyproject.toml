@@ -55,7 +55,9 @@ scrapli_replay = "scrapli_replay.replay.pytest_scrapli_replay"
 
 [tool.setuptools]
 packages = [
-    "scrapli_replay"
+    "scrapli_replay",
+    "scrapli_replay.replay",
+    "scrapli_replay.server",
 ]
 
 [tool.setuptools.dynamic]
