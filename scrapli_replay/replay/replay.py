@@ -632,6 +632,8 @@ class ScrapliReplay:
         self._patched_open: Optional[mock._patch[Any]] = None  # noqa
         self.wrapped_instances: Dict[str, ScrapliReplayInstance] = {}
 
+        self._channel_close: Optional[Callable[[], None]] = None
+
     def __call__(self, wrapped_func: Callable[..., Any]) -> Callable[..., Any]:
         """
         Use ScrapliReplay as a decorator
@@ -698,6 +700,9 @@ class ScrapliReplay:
 
             """
             instance_name = self.create_instance_name(scrapli_conn=cls)
+
+            cls.channel.open()
+            self._channel_close = cls.channel.close
 
             connection_profile = self.create_connection_profile(scrapli_conn=cls)
             instance_object = ScrapliReplayInstance(
@@ -786,6 +791,9 @@ class ScrapliReplay:
         if self.replay_mode in (ReplayMode.RECORD, ReplayMode.OVERWRITE):
             self._save()
 
+        if self._channel_close:
+            self._channel_close()
+
     async def __aenter__(self) -> None:
         """
         Enter method for context manager
@@ -819,6 +827,9 @@ class ScrapliReplay:
 
             """
             instance_name = self.create_instance_name(scrapli_conn=cls)
+
+            cls.channel.open()
+            self._channel_close = cls.channel.close
 
             connection_profile = self.create_connection_profile(scrapli_conn=cls)
             instance_object = ScrapliReplayInstance(
@@ -901,6 +912,9 @@ class ScrapliReplay:
 
         if self.replay_mode in (ReplayMode.RECORD, ReplayMode.OVERWRITE):
             self._save()
+
+        if self._channel_close:
+            self._channel_close()
 
     def create_instance_name(self, scrapli_conn: Union[AsyncDriver, Driver]) -> str:
         """
