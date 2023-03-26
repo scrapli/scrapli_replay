@@ -918,7 +918,7 @@ class ScrapliCollector:
         for privilege_level in self.unknown_events:
             for on_open_state in self.unknown_events[privilege_level]:
                 self.dumpable_unknown_events[privilege_level][on_open_state] = asdict(
-                    self.unknown_events[privilege_level][on_open_state]
+                    self.unknown_events[privilege_level][on_open_state]  # type: ignore
                 )
 
     def dump(self) -> None:
