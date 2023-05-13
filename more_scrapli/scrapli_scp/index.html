@@ -12,25 +12,27 @@
         <meta name="author" content="Carl Montanari">
       
       
-        <link rel="canonical" href="https://scrapli.github.io/">
+        <link rel="canonical" href="https://scrapli.github.io/more_scrapli/scrapli_scp/">
       
       
+        <link rel="prev" href="../nornir_scrapli/">
       
-        <link rel="next" href="user_guide/quickstart/">
       
-      <link rel="icon" href="assets/images/favicon.png">
+        <link rel="next" href="../../about/contributing/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.4.3, mkdocs-material-9.1.12">
     
     
       
-        <title>Scrapli Replay</title>
+        <title>Scrapli SCP - Scrapli Replay</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.85bb2934.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.85bb2934.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.a6bdf11c.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.a6bdf11c.min.css">
       
       
 
@@ -46,9 +48,9 @@
       
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -73,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#scrapli-replay" class="md-skip">
+        <a href="#scrapli-scp" class="md-skip">
           Skip to content
         </a>
       
@@ -89,7 +91,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="Scrapli Replay" class="md-header__button md-logo" aria-label="Scrapli Replay" data-md-component="logo">
+    <a href="../.." title="Scrapli Replay" class="md-header__button md-logo" aria-label="Scrapli Replay" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -108,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Scrapli Replay
+              Scrapli SCP
             
           </span>
         </div>
@@ -189,7 +191,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="Scrapli Replay" class="md-nav__button md-logo" aria-label="Scrapli Replay" data-md-component="logo">
+    <a href="../.." title="Scrapli Replay" class="md-nav__button md-logo" aria-label="Scrapli Replay" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -218,21 +220,11 @@
 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         Scrapli Replay
       </a>
-      
     </li>
   
 
@@ -272,7 +264,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_guide/quickstart/" class="md-nav__link">
+      <a href="../../user_guide/quickstart/" class="md-nav__link">
         Quick Start Guide
       </a>
     </li>
@@ -286,7 +278,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_guide/project_details/" class="md-nav__link">
+      <a href="../../user_guide/project_details/" class="md-nav__link">
         Project Details
       </a>
     </li>
@@ -300,7 +292,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_guide/versioning/" class="md-nav__link">
+      <a href="../../user_guide/versioning/" class="md-nav__link">
         Versioning
       </a>
     </li>
@@ -314,7 +306,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_guide/installation/" class="md-nav__link">
+      <a href="../../user_guide/installation/" class="md-nav__link">
         Installation
       </a>
     </li>
@@ -328,7 +320,7 @@
   
   
     <li class="md-nav__item">
-      <a href="user_guide/basic_usage/" class="md-nav__link">
+      <a href="../../user_guide/basic_usage/" class="md-nav__link">
         Basic Usage
       </a>
     </li>
@@ -350,7 +342,7 @@
   
   
     <li class="md-nav__item">
-      <a href="changelog/" class="md-nav__link">
+      <a href="../../changelog/" class="md-nav__link">
         Changelog
       </a>
     </li>
@@ -363,14 +355,16 @@
 
   
   
+    
+  
   
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
       
       
       
-      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
       
       
       
@@ -379,7 +373,7 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
         <label class="md-nav__title" for="__nav_4">
           <span class="md-nav__icon md-icon"></span>
           More Scrapli
@@ -392,7 +386,7 @@
   
   
     <li class="md-nav__item">
-      <a href="more_scrapli/scrapli/" class="md-nav__link">
+      <a href="../scrapli/" class="md-nav__link">
         Scrapli
       </a>
     </li>
@@ -406,7 +400,7 @@
   
   
     <li class="md-nav__item">
-      <a href="more_scrapli/scrapli_netconf/" class="md-nav__link">
+      <a href="../scrapli_netconf/" class="md-nav__link">
         Scrapli Netconf
       </a>
     </li>
@@ -420,7 +414,7 @@
   
   
     <li class="md-nav__item">
-      <a href="more_scrapli/scrapli_community/" class="md-nav__link">
+      <a href="../scrapli_community/" class="md-nav__link">
         Scrapli Community
       </a>
     </li>
@@ -434,7 +428,7 @@
   
   
     <li class="md-nav__item">
-      <a href="more_scrapli/scrapli_cfg/" class="md-nav__link">
+      <a href="../scrapli_cfg/" class="md-nav__link">
         Scrapli Cfg
       </a>
     </li>
@@ -448,7 +442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="more_scrapli/nornir_scrapli/" class="md-nav__link">
+      <a href="../nornir_scrapli/" class="md-nav__link">
         Nornir Scrapli
       </a>
     </li>
@@ -460,11 +454,21 @@
               
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="more_scrapli/scrapli_scp/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         Scrapli SCP
       </a>
+      
     </li>
   
 
@@ -511,7 +515,7 @@
   
   
     <li class="md-nav__item">
-      <a href="about/contributing/" class="md-nav__link">
+      <a href="../../about/contributing/" class="md-nav__link">
         Contributing
       </a>
     </li>
@@ -525,7 +529,7 @@
   
   
     <li class="md-nav__item">
-      <a href="about/code_of_conduct/" class="md-nav__link">
+      <a href="../../about/code_of_conduct/" class="md-nav__link">
         Code of Conduct
       </a>
     </li>
@@ -572,14 +576,11 @@
                   
 
 
-<h1 id="scrapli-replay">scrapli replay<a class="headerlink" href="#scrapli-replay" title="Permanent link">&para;</a></h1>
-<p>Scrapli replay is a set of tools to help you easily test scrapli programs. Scrapli replay contains a pytest plugin 
-which can "wrap" your tests that contain scrapli interactions and record and play them back -- this allows you to 
-store "cached" test sessions. These cached test sessions can be stored in version control and give you the ability 
-to ensure scrapli is behaving as it should even without devices available (such as in your CI setup).</p>
-<p>scrapli replay also contains a "collector" and a "server" which allow you to "collect" interactions from live 
-devices, and then build mock ssh server(s) that look and feel pretty close to the real deal! Check out the docs for 
-more info!</p>
+<h1 id="scrapli-scp">Scrapli SCP<a class="headerlink" href="#scrapli-scp" title="Permanent link">&para;</a></h1>
+<p><a href="https://github.com/viktorkertesz/scrapli_scp">scrapli_scp</a> is all about adding smart SCP capability to scrapli -- 
+specifically with asyncssh. If you need to SCP things and are using scrapli, you should check this awesome addition 
+to the scrapli community. Big thanks to <a href="https://github.com/viktorkertesz">Viktor</a> for building this and sharing it 
+with the community!</p>
 
 
 
@@ -665,10 +666,10 @@ more info!</p>
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": ".", "features": [], "search": "assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="assets/javascripts/bundle.c2be25ad.min.js"></script>
+      <script src="../../assets/javascripts/bundle.c2be25ad.min.js"></script>
       
     
   </body>
