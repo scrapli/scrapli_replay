@@ -1,4 +1,5 @@
 """scrapli_replay.server.server"""
+
 import asyncio
 from enum import Enum
 from typing import Any, Dict, Optional, Type

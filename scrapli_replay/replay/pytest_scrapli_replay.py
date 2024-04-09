@@ -1,4 +1,5 @@
 """scrapli_replay.pytest.scrapli_replay"""
+
 from pathlib import Path
 from typing import Any, AsyncIterator, Iterator, List, Tuple
 

@@ -1,4 +1,5 @@
 """scrapli_replay.server.collector"""
+
 from copy import copy
 from dataclasses import asdict, dataclass
 from io import BytesIO

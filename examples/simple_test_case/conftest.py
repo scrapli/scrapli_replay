@@ -1,4 +1,5 @@
 """scrapli_replay.examples.simple_test_case.conftest"""
+
 import pytest
 from example import Example
 

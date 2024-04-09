@@ -1,4 +1,5 @@
 """scrapli_replay.examples.simple_test_case.example"""
+
 import re
 
 from scrapli import Scrapli

@@ -1,4 +1,5 @@
 """scrapli_replay.replay.replay"""
+
 # pylint: disable=C0302
 import asyncio
 import re

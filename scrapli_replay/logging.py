@@ -1,4 +1,5 @@
 """scrapli_replay.logging"""
+
 # slightly irritating renaming to prevent a cyclic lookup in griffe for mkdocstrings
 from logging import Formatter as Formatter_
 from logging import LogRecord as LogRecord_
