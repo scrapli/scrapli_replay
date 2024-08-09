@@ -630,7 +630,7 @@ class ScrapliReplay:
                 self.replay_mode = ReplayMode.RECORD
 
         self._block_network = block_network
-        self._patched_open: Optional[mock._patch[Any]] = None  # noqa
+        self._patched_open: Optional[mock._patch[Any]] = None  # pylint: disable=E1136
         self.wrapped_instances: Dict[str, ScrapliReplayInstance] = {}
 
         self._channel_close: Optional[Callable[[], None]] = None
